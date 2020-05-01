@@ -1,13 +1,13 @@
-package com.moderndev.smarthomeserver;
+package com.moderndev.shserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SmarthomeServerApplication {
+public class SmartHomeServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SmarthomeServerApplication.class, args);
+		SpringApplication.run(SmartHomeServerApplication.class, args);
 	}
 
 }
