@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SmarthomeServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SmarthomeApplication.class, args);
+		SpringApplication.run(SmarthomeServerApplication.class, args);
 	}
 
 }
