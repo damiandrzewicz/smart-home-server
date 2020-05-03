@@ -21,7 +21,7 @@
 	</properties>
         
         <modules>
-            <module>sh-security</module>
+	    <module>sh-integration</module>
         </modules>
 
 	<dependencies>
