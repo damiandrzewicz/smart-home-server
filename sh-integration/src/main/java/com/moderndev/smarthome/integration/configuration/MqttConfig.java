@@ -18,7 +18,10 @@ import org.springframework.integration.mqtt.core.MqttPahoClientFactory;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
 import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
 import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter;
+import org.springframework.integration.mqtt.support.MqttHeaders;
 import org.springframework.messaging.MessageHandler;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Headers;
 
 /**
  *
@@ -32,20 +35,20 @@ public class MqttConfig {
     @Value("${mqtt.host:localhost}")
     private String host;
     
-    @Value("${mqtt.port:1883}")
+    @Value("${mqtt.port:1993}")
     private Integer port;
     
-    @Value("${mqtt.username}")
+    @Value("${mqtt.username:}")
     private String username;
     
-    @Value("${mqtt.password}")
+    @Value("${mqtt.password:}")
     private String password;
     
     public MqttPahoClientFactory mqttClientFactory(){
         DefaultMqttPahoClientFactory factory = new DefaultMqttPahoClientFactory();
         MqttConnectOptions options = new MqttConnectOptions();
         
-        String fullHost = String.format("tcp://{}:{}", host, port);
+        String fullHost = String.format("tcp://%s:%s", host, port);
         log.info("Creating Mqtt factory: host=[{}]", fullHost);
         options.setServerURIs(new String[] {fullHost});
         
@@ -63,13 +66,13 @@ public class MqttConfig {
     @Bean
     public MessageProducer mqttInbound(){
         MqttPahoMessageDrivenChannelAdapter adapter = 
-                new MqttPahoMessageDrivenChannelAdapter("testClientInbound", mqttClientFactory());
+                new MqttPahoMessageDrivenChannelAdapter("myHome_srv_inbound", mqttClientFactory());
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(1);
         //adapter.setOutputChannel(mqttInputChannel());
         adapter.setOutputChannelName("mqttInputChannel");
-        adapter.addTopic("/topic1");
+        adapter.addTopic("myhome/srv/base/auth/+");
         adapter.addTopic("/topic2");
         return adapter;
     }
@@ -77,9 +80,9 @@ public class MqttConfig {
     @Bean
     @ServiceActivator(inputChannel = "mqttOutboundChannel")
     public MessageHandler mqttOutbound(){
-        MqttPahoMessageHandler handler = new MqttPahoMessageHandler("testClientOutbound", mqttClientFactory());
+        MqttPahoMessageHandler handler = new MqttPahoMessageHandler("myHome_srv_outbound", mqttClientFactory());
         handler.setAsync(true);
-        handler.setDefaultTopic("testTopic");
+        handler.setDefaultTopic("defaultTopic");
         return handler;
     }
 }

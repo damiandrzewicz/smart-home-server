@@ -12,6 +12,6 @@ public class SmartHomeIntegrationApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext ctx = SpringApplication.run(SmartHomeIntegrationApplication.class, args);
         MqttOutboundService mqtt = ctx.getBean(MqttOutboundService.class);
-        mqtt.sendToMqtt("test from spring", "/topic5/asd");
+        //mqtt.sendToMqtt("test from spring", "/topic5/asd");
     }
 }
