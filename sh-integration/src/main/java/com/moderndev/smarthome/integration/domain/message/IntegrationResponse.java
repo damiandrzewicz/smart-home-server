@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.domain.mqtt;
-
-import java.util.ArrayList;
+package com.moderndev.smarthome.integration.domain.message;
 
 /**
  *
  * @author damian
  */
-public class MqttSubscribtions {
-    //private ArrayList<> subscribtions = new array
+@FunctionalInterface
+public interface IntegrationResponse {
+    
+    public String getResponse();
 }
