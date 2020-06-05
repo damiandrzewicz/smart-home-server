@@ -3,17 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.dispatchers;
+package com.moderndev.smarthome.integration.services.mqtt;
 
 import com.moderndev.smarthome.integration.domain.message.IntegrationMessage;
-import com.moderndev.smarthome.integration.services.MqttOutboundService;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHandler;
-import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
 
 /**

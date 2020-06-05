@@ -8,47 +8,42 @@
                 <version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>sh-integration</artifactId>
+	<artifactId>sh-data</artifactId>
 
-	<name>smart-home-integration</name>
-	<description>Smart Home Integration</description>
+	<name>smart-home-data</name>
+	<description>Smart Home Data</description>
+        
+        <properties>
+            <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
+        </properties>
 
 
 	<dependencies>
                 <dependency>
-                    <groupId>com.moderndev</groupId>
-                    <artifactId>sh-data</artifactId>
-                    <version>0.0.1-SNAPSHOT</version>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-data-jpa</artifactId>
                 </dependency>
                 
                 <dependency>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-web</artifactId>
-                </dependency>
-                
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
                 <dependency>
-                    <groupId>org.springframework.integration</groupId>
-                    <artifactId>spring-integration-mqtt</artifactId>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <scope>runtime</scope>
                 </dependency>
-
+              
+               
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+
                 
-                <!-- https://mvnrepository.com/artifact/org.json/json -->
-                <dependency>
-                    <groupId>org.json</groupId>
-                    <artifactId>json</artifactId>
-                    <version>20190722</version>
-                </dependency>
 
 	</dependencies>
 
@@ -57,6 +52,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+                                <executions>
+                                    <execution>
+                                        <goals>
+                                            <goal>repackage</goal>
+                                        </goals>
+                                    </execution>
+                                </executions>
 			</plugin>
 		</plugins>
 	</build>

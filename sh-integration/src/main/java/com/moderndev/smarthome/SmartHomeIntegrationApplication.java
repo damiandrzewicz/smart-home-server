@@ -1,6 +1,6 @@
-package com.moderndev.smarthome.integration;
+package com.moderndev.smarthome;
 
-import com.moderndev.smarthome.integration.services.MqttOutboundService;
+import com.moderndev.smarthome.integration.services.mqtt.MqttOutboundService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
