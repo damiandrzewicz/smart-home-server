@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.reflect.Whitebox;
@@ -20,6 +21,7 @@ import org.powermock.reflect.Whitebox;
  *
  * @author damian
  */
+@Disabled
 public class AuthorizationMessageTest {
     
     MessageImpl message = null;

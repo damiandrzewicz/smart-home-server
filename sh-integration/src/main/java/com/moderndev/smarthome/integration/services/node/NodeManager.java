@@ -6,24 +6,45 @@
 package com.moderndev.smarthome.integration.services.node;
 
 import com.moderndev.smarthome.data.domain.node.Node;
-import com.moderndev.smarthome.data.domain.node.NodeIdentityData;
+import com.moderndev.smarthome.data.domain.node.NodeIdentity;
+import com.moderndev.smarthome.database.services.NodeService;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import javax.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author damian
  */
+@Slf4j
+@Service
 public class NodeManager {
    
-    private List<Node> nodes = Collections.synchronizedList(new ArrayList<>());
+    private Set<Node> nodes = Collections.synchronizedSet(new HashSet<Node>());
+    
+    private NodeService nodeService;
+
+    public NodeManager(NodeService nodeService) {
+        this.nodeService = nodeService;
+
+    }
+    
+    @PostConstruct
+    public void init(){
+        this.nodeService.findAll().stream().forEach(n -> this.nodes.add(n));
+        log.debug("loaded {} nodes", this.nodes.size());
+    }
     
 
-    public Node findNode(String id){
+    public Node getNodeAuthenticated(String id){
         if(nodes.size() == 0){
             return null;
         }
@@ -31,7 +52,7 @@ public class NodeManager {
         synchronized(this.nodes){
             Node node = this.nodes
                     .stream()
-                    .filter(n -> n.getNodeInfo().equals(id))
+                    .filter(n -> n.getNodeId().equals(id))
                     .findAny()
                     .orElse(null);
             
@@ -39,8 +60,8 @@ public class NodeManager {
         }
     }
     
-    private Node findNode(Node node){
-        if(node == null || node.getNodeInfo().getNodeId() == null){
+    private Node getNodeAuthenticated(Node node){
+        if(node == null || node.getNodeId() == null){
             return null;
         }
         
@@ -53,26 +74,14 @@ public class NodeManager {
             
             return searchNode;
         }
-        
     }
     
-    public boolean addNode(String id){
-        if(id == null){
-            return false;
-        }
-        
-        var node = new Node();
-        node.getNodeInfo().setNodeId(id);
-        
-        return addNode(node);
-    }
-    
-    public boolean addNode(Node node){
+    public boolean authenticateNode(Node node){
         if(node == null){
             return false;
         }
         
-        if(findNode(node) == null){
+        if(getNodeAuthenticated(node) == null){
             this.nodes.add(node);
             setNodeActive(node);
             return true;
@@ -81,21 +90,62 @@ public class NodeManager {
         return false;
     }
     
-    public boolean identifyNode(String id, NodeIdentityData nodeIdentityData){
+    public boolean dropAuthenticatedNode(String nodeId){
+        if(nodeId == null){
+            return false;
+        }
+        
+        return dropAuthenticatedNode(getNodeAuthenticated(nodeId));
+    }
+    
+    public boolean dropAuthenticatedNode(Node node){
+        if(node == null){
+            return false;
+        }
+        
+        if(getNodeAuthenticated(node) != null){
+            this.nodes.remove(node);
+            
+            if(isNodeIdentified(node)){
+                this.nodeService.delete(node);
+            }
+            
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public boolean dropIdentification(Node node){
+        if(node == null){
+            return false;
+        }
+        
+        if(isNodeIdentified(node)){
+            node.setNodeIdentity(null);
+            
+        }
+        
+        return false;
+    }
+    
+    public boolean identifyNode(String id, NodeIdentity nodeIdentityData){
         if(id == null || nodeIdentityData == null){
             return false;
         }
         
-        return identifyNode(findNode(id), nodeIdentityData);
+        return identifyNode(getNodeAuthenticated(id), nodeIdentityData);
     }
     
-    private boolean identifyNode(Node node, NodeIdentityData nodeIdentityData){
-        if(node == null || nodeIdentityData == null){
+    private boolean identifyNode(Node node, NodeIdentity nodeIdentity){
+        if(node == null || nodeIdentity == null){
             return false;
         }
         
-        //node.setNodeIdentityData(nodeIdentityData);
-        //TODO save to databse
+        node.setNodeIdentity(nodeIdentity);
+        
+        this.nodeService.save(node);
+        
         return true;
     }
     
@@ -104,7 +154,7 @@ public class NodeManager {
             return false;
         }
         
-        return setNodeActive(findNode(id));
+        return setNodeActive(getNodeAuthenticated(id));
     }
     
     private boolean setNodeActive(Node node){
@@ -115,7 +165,7 @@ public class NodeManager {
         node.setLatestActiveDateTime(LocalDateTime.now());
 
         if(isNodeIdentified(node)){
-            //TODO update database if identified
+            this.nodeService.save(node);
         }
 
         return true;
@@ -126,7 +176,7 @@ public class NodeManager {
             return false;
         }
         
-        return isNodeActive(findNode(id));
+        return isNodeActive(getNodeAuthenticated(id));
     }
     
     private boolean isNodeActive(Node node){
@@ -151,7 +201,7 @@ public class NodeManager {
             return false;
         }
         
-        return isNodeIdentified(findNode(id));
+        return isNodeIdentified(getNodeAuthenticated(id));
     }
     
     private boolean isNodeIdentified(Node node){
@@ -159,7 +209,6 @@ public class NodeManager {
             return false;
         }
         
-        return false;
-        //return (node.getNodeIdentityData() != null);
+        return node.getNodeIdentity() != null;
     }
 }

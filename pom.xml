@@ -23,7 +23,8 @@
 	</properties>
         
         <modules>
-	    <module>sh-integration</module>
+            <module>sh-mainapp</module>
+            <module>sh-integration</module>
             <module>sh-data</module>
         </modules>
 

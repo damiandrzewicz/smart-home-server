@@ -8,20 +8,22 @@
                 <version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>sh-data</artifactId>
+	<artifactId>sh-mainapp</artifactId>
 
-	<name>smart-home-data</name>
-	<description>Smart Home Data</description>
+	<name>smart-home-mainapp</name>
+	<description>Smart Home Main Application</description>
         
-        <properties>
-            <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
-        </properties>
-
-
 	<dependencies>
                 <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-data-jpa</artifactId>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>sh-data</artifactId>
+                        <version>${project.version}</version>
+                </dependency>
+                
+                <dependency>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>sh-integration</artifactId>
+                        <version>${project.version}</version>
                 </dependency>
                 
                 <dependency>
@@ -29,26 +31,13 @@
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+                
                 <dependency>
                     <groupId>mysql</groupId>
                     <artifactId>mysql-connector-java</artifactId>
                     <scope>runtime</scope>
                 </dependency>
 
-                <dependency>
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>commons-lang3</artifactId>
-                    <version>3.10</version>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>commons-collections4</artifactId>
-                    <version>4.4</version>
-                </dependency>
-
-              
-               
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>

@@ -3,18 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.domain.message;
+package com.moderndev.smarthome.integration.message;
 
+import com.moderndev.smarthome.integration.domain.message.IntegrationMessage;
+import com.moderndev.smarthome.integration.domain.message.IntegrationResultJsonObject;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
 import org.mockito.Mockito;
 
 /**
  *
  * @author damian
  */
+@Disabled
 public class MessageTest {
     
     MessageImpl messageImpl = null;

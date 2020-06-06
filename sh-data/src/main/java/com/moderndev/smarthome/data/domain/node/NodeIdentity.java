@@ -21,7 +21,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class NodeIdentityData extends BaseEntity{
+public class NodeIdentity extends BaseEntity{
     
     private String name;
     private String location;

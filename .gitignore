@@ -60,3 +60,4 @@ pom.xml.tag
 # Logs
 *.log
 /sh-integration/nbproject/
+/sh-data/nbproject/

@@ -6,14 +6,18 @@
 package com.moderndev.smarthome.database.repository;
 
 import com.moderndev.smarthome.data.domain.node.Node;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author damian
  */
-public interface NodeRepository extends CrudRepository<Node, Long>{
+@Repository
+public interface NodeRepository extends JpaRepository<Node, Long>{
     
     Node findById(long id);
     
+    Node save(Node node);
 }

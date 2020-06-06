@@ -5,10 +5,12 @@
  */
 package com.moderndev.smarthome.data.domain.node;
 
+import com.moderndev.smarthome.data.domain.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import javax.persistence.Entity;
 
 /**
  *
@@ -18,7 +20,8 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class NodeType {
+@Entity
+public class NodeType extends BaseEntity{
     
     private String type;
 

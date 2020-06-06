@@ -13,6 +13,9 @@
 	<name>smart-home-integration</name>
 	<description>Smart Home Integration</description>
 
+        <properties>
+            <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
+        </properties>
 
 	<dependencies>
                 <dependency>
@@ -37,11 +40,6 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
                 
                 <!-- https://mvnrepository.com/artifact/org.json/json -->
                 <dependency>
@@ -57,6 +55,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+                                <executions>
+                                    <execution>
+                                        <goals>
+                                            <goal>repackage</goal>
+                                        </goals>
+                                    </execution>
+                                </executions>
 			</plugin>
 		</plugins>
 	</build>
