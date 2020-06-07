@@ -20,6 +20,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 /**
  *
  * @author damian
@@ -31,15 +32,18 @@ import javax.persistence.Table;
 @Entity
 public class Node extends BaseEntity {
     
+    @Column(unique = true)
+    @NotNull
     private String nodeId;
     
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "node_identity_id")
+    @NotNull
     private NodeIdentity nodeIdentity = null;
     
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "node_type_id")
-    private NodeType nodeType;
+    private NodeType nodeType = null;
     
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "node_system_info_id")
@@ -48,6 +52,10 @@ public class Node extends BaseEntity {
     private LocalDateTime latestActiveDateTime = null;
    
     private long minInactiveInterval = 1;
+
+    public Node(String systemId) {
+        this.nodeId = systemId;
+    }
     
     @Override
     public boolean equals(Object obj) {

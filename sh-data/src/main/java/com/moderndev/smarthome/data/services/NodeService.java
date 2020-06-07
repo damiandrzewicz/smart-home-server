@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.database.services;
+package com.moderndev.smarthome.data.services;
 
 import com.moderndev.smarthome.data.domain.node.Node;
 import java.util.List;
@@ -21,6 +21,8 @@ public interface NodeService {
     List<Node> saveAll(List<Node> entities);
 
     Optional<Node> findById(Long id);
+    
+    Node findByNodeId(String nodeId);
 
     boolean existsById(Long id);
 

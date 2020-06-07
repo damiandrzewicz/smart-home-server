@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -23,8 +24,13 @@ import javax.persistence.Entity;
 @Entity
 public class NodeSystemInfo extends BaseEntity{
     
+    @NotNull
     private String myHomeVersion;
+    
+    @NotNull
     private String sdkVersion;
+    
     private int freeHeapSize;
+    
     private int minFreeHeapSize;
 }

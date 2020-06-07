@@ -6,8 +6,9 @@
 package com.moderndev.smarthome.database.services.jpa;
 
 import com.moderndev.smarthome.data.domain.node.NodeType;
-import com.moderndev.smarthome.database.repository.NodeTypeRepository;
-import com.moderndev.smarthome.database.services.NodeTypeService;
+import com.moderndev.smarthome.data.repository.NodeTypeRepository;
+
+import com.moderndev.smarthome.data.services.NodeTypeService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,8 +43,8 @@ public class NodeTypeServiceJpa implements NodeTypeService{
     }
 
     @Override
-    public Optional<NodeType> findById(Long id) {
-        return this.nodeTypeRepository.findById(id);
+    public NodeType findById(Long id) {
+        return this.nodeTypeRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -77,8 +78,13 @@ public class NodeTypeServiceJpa implements NodeTypeService{
     }
 
     @Override
-    public Optional<NodeType> findByType(String type) {
+    public NodeType findByType(String type) {
         return this.nodeTypeRepository.findByType(type);
+    }
+
+    @Override
+    public void deleteByType(String type) {
+        this.nodeTypeRepository.deleteByType(type);
     }
     
 }

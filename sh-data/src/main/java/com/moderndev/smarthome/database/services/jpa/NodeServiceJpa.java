@@ -6,8 +6,8 @@
 package com.moderndev.smarthome.database.services.jpa;
 
 import com.moderndev.smarthome.data.domain.node.Node;
-import com.moderndev.smarthome.database.repository.NodeRepository;
-import com.moderndev.smarthome.database.services.NodeService;
+import com.moderndev.smarthome.data.repository.NodeRepository;
+import com.moderndev.smarthome.data.services.NodeService;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -41,7 +41,7 @@ public class NodeServiceJpa implements NodeService{
 
     @Override
     public Optional<Node> findById(Long id) {
-        return this.nodeRepository.findById(id);
+        return this.nodeRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -77,6 +77,11 @@ public class NodeServiceJpa implements NodeService{
     @Override
     public void deleteAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Node findByNodeId(String nodeId) {
+        return nodeRepository.findByNodeId(nodeId);
     }
    
     

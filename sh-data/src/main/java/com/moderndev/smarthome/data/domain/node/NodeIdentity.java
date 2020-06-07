@@ -6,11 +6,13 @@
 package com.moderndev.smarthome.data.domain.node;
 
 import com.moderndev.smarthome.data.domain.base.BaseEntity;
+import javax.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -23,6 +25,9 @@ import javax.persistence.Entity;
 @Entity
 public class NodeIdentity extends BaseEntity{
     
+    @Column(unique = true)
+    @NotNull
     private String name;
-    private String location;
+    
+    //private String location;
 }
