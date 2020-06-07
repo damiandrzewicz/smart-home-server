@@ -10,10 +10,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 
 @SpringBootApplication
-public class SmartHomeDataApplication {
+public class SmartHomeMainApp {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext ctx = SpringApplication.run(SmartHomeDataApplication.class, args);
+        ConfigurableApplicationContext ctx = SpringApplication.run(SmartHomeMainApp.class, args);
         //mqtt.sendToMqtt("test from spring", "/topic5/asd");
     }
 }
