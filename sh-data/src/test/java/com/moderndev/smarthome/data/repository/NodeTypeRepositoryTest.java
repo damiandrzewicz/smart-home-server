@@ -6,9 +6,8 @@
 package com.moderndev.smarthome.data.repository;
 
 import com.moderndev.smarthome.data.TestConfig;
-import com.moderndev.smarthome.data.domain.node.Node;
-import com.moderndev.smarthome.data.domain.node.NodeType;
-import com.moderndev.smarthome.data.repository.NodeTypeRepository;
+import com.moderndev.smarthome.data.domain.smartnode.SmartNode;
+import com.moderndev.smarthome.data.domain.smartnode.SmartNodeType;
 import java.util.Optional;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -33,6 +32,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
+import com.moderndev.smarthome.data.repository.SmartNodeTypeRepository;
 
 /**
  *
@@ -52,7 +52,7 @@ class NodeTypeRepositoryTest {
     private final String NodeType3 = "nodeType3";
       
     @Autowired
-    NodeTypeRepository nodeTypeRepository;
+    SmartNodeTypeRepository nodeTypeRepository;
     
     private static Validator validator;
       
@@ -64,7 +64,7 @@ class NodeTypeRepositoryTest {
     
     @Test
     void testSave(){
-        NodeType saveNodeType = nodeTypeRepository.save(new NodeType(NodeType1));
+        SmartNodeType saveNodeType = nodeTypeRepository.save(new SmartNodeType(NodeType1));
         assertNotNull(saveNodeType);
         assertNotNull(saveNodeType.getId());
         assertEquals(NodeType1, saveNodeType.getType());
@@ -72,8 +72,8 @@ class NodeTypeRepositoryTest {
     
     @Test
     void testSaveExisting(){
-        var nodeType = new NodeType(NodeType1);
-        var copyNodeType = new NodeType(NodeType1);
+        var nodeType = new SmartNodeType(NodeType1);
+        var copyNodeType = new SmartNodeType(NodeType1);
         
         assertThrows(DataIntegrityViolationException.class, () -> { 
             nodeTypeRepository.save(nodeType);
@@ -83,8 +83,8 @@ class NodeTypeRepositoryTest {
     
     @Test
     void setSaveNodeTypeIsNull(){
-        var nodeType = new NodeType(null);
-        Set<ConstraintViolation<NodeType>> constraintViolations = validator.validate(nodeType);
+        var nodeType = new SmartNodeType(null);
+        Set<ConstraintViolation<SmartNodeType>> constraintViolations = validator.validate(nodeType);
         
         assertEquals(1, constraintViolations.size());
         assertEquals("must not be null", constraintViolations.iterator().next().getMessage());
@@ -92,24 +92,24 @@ class NodeTypeRepositoryTest {
 
     @Test
     void testFindByType(){
-        nodeTypeRepository.save(new NodeType(NodeType1));
+        nodeTypeRepository.save(new SmartNodeType(NodeType1));
         assertNotNull(this.nodeTypeRepository.findByType(NodeType1));
     }
     
     @Test
     void testDelete(){
-        NodeType nodeType = nodeTypeRepository.save(new NodeType(NodeType1));
+        SmartNodeType nodeType = nodeTypeRepository.save(new SmartNodeType(NodeType1));
         nodeTypeRepository.delete(nodeType);
         
-        Optional<NodeType> findById = nodeTypeRepository.findById(nodeType.getId());
+        Optional<SmartNodeType> findById = nodeTypeRepository.findById(nodeType.getId());
         assertTrue(findById.isEmpty());
     }
     
     @Test
     void testDeleteAll(){
-        nodeTypeRepository.save(new NodeType(NodeType1));
-        nodeTypeRepository.save(new NodeType(NodeType2));
-        nodeTypeRepository.save(new NodeType(NodeType3));
+        nodeTypeRepository.save(new SmartNodeType(NodeType1));
+        nodeTypeRepository.save(new SmartNodeType(NodeType2));
+        nodeTypeRepository.save(new SmartNodeType(NodeType3));
         
         nodeTypeRepository.deleteAll();
         assertEquals(0, nodeTypeRepository.count());
@@ -119,22 +119,22 @@ class NodeTypeRepositoryTest {
     void testCount(){
         assertEquals(0, nodeTypeRepository.count());
         
-        nodeTypeRepository.save(new NodeType(NodeType1));
+        nodeTypeRepository.save(new SmartNodeType(NodeType1));
         assertEquals(1, nodeTypeRepository.count());
         
-        nodeTypeRepository.save(new NodeType(NodeType2));
+        nodeTypeRepository.save(new SmartNodeType(NodeType2));
         assertEquals(2, nodeTypeRepository.count());
         
-        nodeTypeRepository.save(new NodeType(NodeType3));
+        nodeTypeRepository.save(new SmartNodeType(NodeType3));
         assertEquals(3, nodeTypeRepository.count());
     }
     
     @Test
     void testDeleteByType(){
-        NodeType nodeType = nodeTypeRepository.save(new NodeType(NodeType1));
+        SmartNodeType nodeType = nodeTypeRepository.save(new SmartNodeType(NodeType1));
         nodeTypeRepository.deleteByType(NodeType1);
         
-        Optional<NodeType> foundNode = nodeTypeRepository.findById(nodeType.getId());
+        Optional<SmartNodeType> foundNode = nodeTypeRepository.findById(nodeType.getId());
         assertTrue(foundNode.isEmpty());
     }
 }

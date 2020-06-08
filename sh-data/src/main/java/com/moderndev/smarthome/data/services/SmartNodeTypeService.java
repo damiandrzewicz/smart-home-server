@@ -5,36 +5,35 @@
  */
 package com.moderndev.smarthome.data.services;
 
-import com.moderndev.smarthome.data.domain.node.Node;
+import com.moderndev.smarthome.data.domain.smartnode.SmartNodeType;
 import java.util.List;
-import java.util.Set;
 import java.util.Optional;
 
 /**
  *
  * @author damian
  */
-public interface NodeService {
+public interface SmartNodeTypeService {
     
-    Node save(Node entity);
+    SmartNodeType save(SmartNodeType entity);
 
-    List<Node> saveAll(List<Node> entities);
+    List<SmartNodeType> saveAll(List<SmartNodeType> entities);
 
-    Optional<Node> findById(Long id);
+    SmartNodeType findById(Long id);
     
-    Node findByNodeId(String nodeId);
+    SmartNodeType findByType(String type);
 
     boolean existsById(Long id);
 
-    List<Node> findAll();
+    List<SmartNodeType> findAll();
 
     long count();
 
     void deleteById(Long id);
 
-    void delete(Node entity);
-
-    void deleteAll(List<Node> entities);
+    void delete(SmartNodeType entity);
 
     void deleteAll();
+    
+    void deleteByType(String type);
 }

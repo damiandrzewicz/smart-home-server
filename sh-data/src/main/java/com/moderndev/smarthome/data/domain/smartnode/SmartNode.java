@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.data.domain.node;
+package com.moderndev.smarthome.data.domain.smartnode;
 
 import com.moderndev.smarthome.data.domain.base.BaseEntity;
 import java.time.LocalDateTime;
@@ -30,31 +30,38 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Node extends BaseEntity {
+public class SmartNode extends BaseEntity {
     
+    @NotNull
     @Column(unique = true)
-    @NotNull
-    private String nodeId;
+    private String smartNodeId;
     
+    @NotNull
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "node_identity_id")
-    @NotNull
-    private NodeIdentity nodeIdentity = null;
+    @JoinColumn(name = "smart_node_identity_id")
+    private SmartNodeIdentity smartNodeIdentity = null;
     
+    @NotNull
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "node_type_id")
-    private NodeType nodeType = null;
+    @JoinColumn(name = "smart_node_type_id")
+    private SmartNodeType smartNodeType = null;
     
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "node_system_info_id")
-    private NodeSystemInfo nodeSystemInfo;
+    @JoinColumn(name = "smart_node_system_info_id")
+    private SmartNodeSystemInfo smartNodeSystemInfo;
     
     private LocalDateTime latestActiveDateTime = null;
    
     private long minInactiveInterval = 1;
 
-    public Node(String systemId) {
-        this.nodeId = systemId;
+    public SmartNode(String smartNodeId) {
+        this.smartNodeId = smartNodeId;
+    }
+    
+    public SmartNode(String smartNodeId, SmartNodeType smartNodeType, SmartNodeIdentity smartNodeIdentity){
+        this.smartNodeId = smartNodeId;
+        this.smartNodeType = smartNodeType;
+        this.smartNodeIdentity = smartNodeIdentity;
     }
     
     @Override
@@ -68,8 +75,8 @@ public class Node extends BaseEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Node other = (Node) obj;
-        if (!Objects.equals(this.nodeId, other.nodeId)) {
+        final SmartNode other = (SmartNode) obj;
+        if (!Objects.equals(this.smartNodeId, other.smartNodeId)) {
             return false;
         }
         return true;
@@ -78,7 +85,7 @@ public class Node extends BaseEntity {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 37 * hash + Objects.hashCode(this.nodeId);
+        hash = 37 * hash + Objects.hashCode(this.smartNodeId);
         return hash;
     }
     

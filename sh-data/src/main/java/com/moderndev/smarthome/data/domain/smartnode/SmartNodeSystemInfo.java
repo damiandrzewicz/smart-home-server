@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.data.domain.node;
+package com.moderndev.smarthome.data.domain.smartnode;
 
 import com.moderndev.smarthome.data.domain.base.BaseEntity;
-import javax.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,10 +22,15 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class NodeType extends BaseEntity{
+public class SmartNodeSystemInfo extends BaseEntity{
     
-    @Column(unique = true)
     @NotNull
-    private String type;
-
+    private String myHomeVersion;
+    
+    @NotNull
+    private String sdkVersion;
+    
+    private int freeHeapSize;
+    
+    private int minFreeHeapSize;
 }

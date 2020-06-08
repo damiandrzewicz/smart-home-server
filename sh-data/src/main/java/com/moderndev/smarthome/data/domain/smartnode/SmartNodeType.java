@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.data.domain.node;
+package com.moderndev.smarthome.data.domain.smartnode;
 
 import com.moderndev.smarthome.data.domain.base.BaseEntity;
 import javax.persistence.Column;
@@ -23,11 +23,10 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class NodeIdentity extends BaseEntity{
+public class SmartNodeType extends BaseEntity{
     
     @Column(unique = true)
     @NotNull
-    private String name;
-    
-    //private String location;
+    private String type;
+
 }

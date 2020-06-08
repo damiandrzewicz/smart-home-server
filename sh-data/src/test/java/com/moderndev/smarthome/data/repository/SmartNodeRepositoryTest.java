@@ -6,9 +6,9 @@
 package com.moderndev.smarthome.data.repository;
 
 import com.moderndev.smarthome.data.TestConfig;
-import com.moderndev.smarthome.data.domain.node.Node;
-import com.moderndev.smarthome.data.domain.node.NodeIdentity;
-import com.moderndev.smarthome.data.domain.node.NodeType;
+import com.moderndev.smarthome.data.domain.smartnode.SmartNode;
+import com.moderndev.smarthome.data.domain.smartnode.SmartNodeIdentity;
+import com.moderndev.smarthome.data.domain.smartnode.SmartNodeType;
 import java.util.Optional;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -29,20 +29,20 @@ import org.springframework.context.annotation.Import;
  */
 @DataJpaTest
 @Import(TestConfig.class)
-public class NodeRepositoryTest {
+public class SmartNodeRepositoryTest {
     
     private static Validator validator;
     
     @Autowired
-    NodeRepository nodeRepository;
+    SmartNodeRepository nodeRepository;
     
     @Autowired
-    NodeTypeRepository nodeTypeRepository;
+    SmartNodeTypeRepository nodeTypeRepository;
     
     static final String NodeId = "myNodeId";
     static final String NodeIdentityName = "myNodeIdentityName";
-    Node node;
-    NodeIdentity nodeIdentity;
+    SmartNode node;
+    SmartNodeIdentity nodeIdentity;
       
     @BeforeAll
     static void setUpValidator(){
@@ -52,9 +52,9 @@ public class NodeRepositoryTest {
     
     @BeforeEach
     void setUp() {
-        this.node = new Node(NodeId);
-        nodeIdentity = new NodeIdentity("myIdentity");
-        this.node.setNodeIdentity(nodeIdentity);
+        this.node = new SmartNode(NodeId);
+        nodeIdentity = new SmartNodeIdentity("myIdentity");
+        this.node.setSmartNodeIdentity(nodeIdentity);
     }
     
     @Test
@@ -64,8 +64,8 @@ public class NodeRepositoryTest {
     
     @Test
     void testSaveNodeWithNullNodeId() {
-        this.node.setNodeId(null);
-        Set<ConstraintViolation<Node>> constraintViolations = validator.validate(this.node);
+        this.node.setSmartNodeId(null);
+        Set<ConstraintViolation<SmartNode>> constraintViolations = validator.validate(this.node);
         
         assertEquals(1, constraintViolations.size());
         assertEquals("must not be null", constraintViolations.iterator().next().getMessage());
@@ -73,64 +73,64 @@ public class NodeRepositoryTest {
 
     @Test
     void testFindById() {
-        Node savedNode = nodeRepository.save(this.node);
-        Optional<Node> findById = nodeRepository.findById(savedNode.getId());
+        SmartNode savedNode = nodeRepository.save(this.node);
+        Optional<SmartNode> findById = nodeRepository.findById(savedNode.getId());
         assertTrue(findById.isPresent());
         assertNotNull(findById.get());
-        assertEquals(NodeId, findById.get().getNodeId());
+        assertEquals(NodeId, findById.get().getSmartNodeId());
     }
 
     @Test
     void testFindByNodeId(){
         nodeRepository.save(this.node);
-        Node foundNode = nodeRepository.findByNodeId(NodeId);
-        assertEquals(NodeId, foundNode.getNodeId());
+        SmartNode foundNode = nodeRepository.findByNodeId(NodeId);
+        assertEquals(NodeId, foundNode.getSmartNodeId());
     }
 
     @Test
     void testSaveNodeWithNodeType(){
         String nodeType = "myNodeType";
-        NodeType savedNodeType = nodeTypeRepository.save(new NodeType(nodeType));
+        SmartNodeType savedNodeType = nodeTypeRepository.save(new SmartNodeType(nodeType));
         assertNotNull(savedNodeType);
         
-        this.node.setNodeType(savedNodeType);
-        Node savedNode = nodeRepository.save(node);
+        this.node.setSmartNodeType(savedNodeType);
+        SmartNode savedNode = nodeRepository.save(node);
         assertNotNull(savedNode);
         
-        Node savedNodeCopy = nodeRepository.findByNodeId(this.node.getNodeId());
-        assertEquals(nodeType, savedNodeCopy.getNodeType().getType());
+        SmartNode savedNodeCopy = nodeRepository.findByNodeId(this.node.getSmartNodeId());
+        assertEquals(nodeType, savedNodeCopy.getSmartNodeType().getType());
     }
     
     @Test
     void testDeleteNodeAndPersistNodeType(){
         String nodeType = "myNodeType";
-        NodeType savedNodeType = nodeTypeRepository.save(new NodeType(nodeType));
+        SmartNodeType savedNodeType = nodeTypeRepository.save(new SmartNodeType(nodeType));
         assertNotNull(savedNodeType);
         
-        this.node.setNodeType(savedNodeType);
-        Node savedNode = nodeRepository.save(this.node);
+        this.node.setSmartNodeType(savedNodeType);
+        SmartNode savedNode = nodeRepository.save(this.node);
         assertNotNull(savedNode);
         
         nodeRepository.delete(savedNode);
         
-        NodeType foundNodeType = nodeTypeRepository.findByType(nodeType);
+        SmartNodeType foundNodeType = nodeTypeRepository.findByType(nodeType);
         assertEquals(nodeType, foundNodeType.getType());
     }
     
     @Test
     void testDeleteNode(){
-        Node savedNode = nodeRepository.save(this.node);
+        SmartNode savedNode = nodeRepository.save(this.node);
         nodeRepository.delete(savedNode);
         
-        Node findByNodeId = nodeRepository.findByNodeId(this.node.getNodeId());
+        SmartNode findByNodeId = nodeRepository.findByNodeId(this.node.getSmartNodeId());
         assertNull(findByNodeId);
     }
     
     @Test
     void setSaveNodeWithoutIdentity(){
-        this.node.setNodeIdentity(null);
+        this.node.setSmartNodeIdentity(null);
         
-        Set<ConstraintViolation<Node>> constraintViolations = validator.validate(this.node);
+        Set<ConstraintViolation<SmartNode>> constraintViolations = validator.validate(this.node);
         
         assertEquals(1, constraintViolations.size());
         assertEquals("must not be null", constraintViolations.iterator().next().getMessage());

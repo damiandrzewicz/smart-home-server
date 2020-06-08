@@ -5,7 +5,7 @@
  */
 package com.moderndev.smarthome.data.repository;
 
-import com.moderndev.smarthome.data.domain.node.NodeType;
+import com.moderndev.smarthome.data.domain.smartnode.SmartNodeType;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,9 +17,9 @@ import org.springframework.stereotype.Repository;
  * @author damian
  */
 @Repository
-public interface NodeTypeRepository extends CrudRepository<NodeType, Long>{
+public interface SmartNodeTypeRepository extends CrudRepository<SmartNodeType, Long>{
     
-    NodeType findByType(String type);
+    SmartNodeType findByType(String type);
     
     void deleteByType(String type);
    

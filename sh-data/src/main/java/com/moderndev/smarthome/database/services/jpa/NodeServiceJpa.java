@@ -5,9 +5,7 @@
  */
 package com.moderndev.smarthome.database.services.jpa;
 
-import com.moderndev.smarthome.data.domain.node.Node;
-import com.moderndev.smarthome.data.repository.NodeRepository;
-import com.moderndev.smarthome.data.services.NodeService;
+import com.moderndev.smarthome.data.domain.smartnode.SmartNode;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,33 +13,35 @@ import java.util.Optional;
 import java.util.Set;
 import org.apache.commons.collections4.IterableUtils;
 import org.springframework.stereotype.Service;
+import com.moderndev.smarthome.data.repository.SmartNodeRepository;
+import com.moderndev.smarthome.data.services.SmartNodeService;
 
 /**
  *
  * @author damian
  */
 @Service
-public class NodeServiceJpa implements NodeService{
+public class NodeServiceJpa implements SmartNodeService{
   
-    private final NodeRepository nodeRepository;
+    private final SmartNodeRepository smartNodeRepository;
 
-    public NodeServiceJpa(NodeRepository nodeRepository) {
-        this.nodeRepository = nodeRepository;
+    public NodeServiceJpa(SmartNodeRepository nodeRepository) {
+        this.smartNodeRepository = nodeRepository;
     }
 
     @Override
-    public Node save(Node entity) {
-        return this.nodeRepository.save(entity);
+    public SmartNode save(SmartNode entity) {
+        return this.smartNodeRepository.save(entity);
     }
 
     @Override
-    public List<Node> saveAll(List<Node> entities) {
+    public List<SmartNode> saveAll(List<SmartNode> entities) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Optional<Node> findById(Long id) {
-        return this.nodeRepository.findById(id).orElse(null);
+    public SmartNode findById(Long id) {
+        return this.smartNodeRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -50,13 +50,13 @@ public class NodeServiceJpa implements NodeService{
     }
 
     @Override
-    public List<Node> findAll() {
-        return IterableUtils.toList(this.nodeRepository.findAll());
+    public List<SmartNode> findAll() {
+        return IterableUtils.toList(this.smartNodeRepository.findAll());
     }
 
     @Override
     public long count() {
-        return this.nodeRepository.count();
+        return this.smartNodeRepository.count();
     }
 
     @Override
@@ -65,12 +65,12 @@ public class NodeServiceJpa implements NodeService{
     }
 
     @Override
-    public void delete(Node entity) {
+    public void delete(SmartNode entity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void deleteAll(List<Node> entities) {
+    public void deleteAll(List<SmartNode> entities) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -80,8 +80,8 @@ public class NodeServiceJpa implements NodeService{
     }
 
     @Override
-    public Node findByNodeId(String nodeId) {
-        return nodeRepository.findByNodeId(nodeId);
+    public SmartNode findByNodeId(String nodeId) {
+        return smartNodeRepository.findByNodeId(nodeId);
     }
    
     

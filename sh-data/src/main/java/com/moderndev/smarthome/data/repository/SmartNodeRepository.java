@@ -5,7 +5,7 @@
  */
 package com.moderndev.smarthome.data.repository;
 
-import com.moderndev.smarthome.data.domain.node.Node;
+import com.moderndev.smarthome.data.domain.smartnode.SmartNode;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
@@ -16,11 +16,11 @@ import org.springframework.stereotype.Repository;
  * @author damian
  */
 @Repository
-public interface NodeRepository extends CrudRepository<Node, Long>{
+public interface SmartNodeRepository extends CrudRepository<SmartNode, Long>{
     
-    Optional<Node> findById(long id);
+    Optional<SmartNode> findById(Long id);
     
-    Node findByNodeId(String nodeId);
+    SmartNode findByNodeId(String nodeId);
     
-    Node save(Node node);
+    SmartNode save(SmartNode node);
 }

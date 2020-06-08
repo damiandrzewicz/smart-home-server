@@ -5,45 +5,45 @@
  */
 package com.moderndev.smarthome.database.services.jpa;
 
-import com.moderndev.smarthome.data.domain.node.NodeType;
-import com.moderndev.smarthome.data.repository.NodeTypeRepository;
+import com.moderndev.smarthome.data.domain.smartnode.SmartNodeType;
 
-import com.moderndev.smarthome.data.services.NodeTypeService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.stereotype.Service;
+import com.moderndev.smarthome.data.repository.SmartNodeTypeRepository;
+import com.moderndev.smarthome.data.services.SmartNodeTypeService;
 
 /**
  *
  * @author damian
  */
 @Service
-public class NodeTypeServiceJpa implements NodeTypeService{
+public class NodeTypeServiceJpa implements SmartNodeTypeService{
     
-    private final NodeTypeRepository nodeTypeRepository;
+    private final SmartNodeTypeRepository nodeTypeRepository;
 
-    public NodeTypeServiceJpa(NodeTypeRepository nodeTypeRepository) {
+    public NodeTypeServiceJpa(SmartNodeTypeRepository nodeTypeRepository) {
         this.nodeTypeRepository = nodeTypeRepository;
     }
 
 
     @Override
-    public NodeType save(NodeType entity) {
+    public SmartNodeType save(SmartNodeType entity) {
         return this.nodeTypeRepository.save(entity);
     }
 
     @Override
-    public List<NodeType> saveAll(List<NodeType> entities) {
-        List<NodeType> nodes = new ArrayList<>();
+    public List<SmartNodeType> saveAll(List<SmartNodeType> entities) {
+        List<SmartNodeType> nodes = new ArrayList<>();
         this.nodeTypeRepository.saveAll(entities).iterator().forEachRemaining(nodes::add);
         return nodes;
     }
 
     @Override
-    public NodeType findById(Long id) {
+    public SmartNodeType findById(Long id) {
         return this.nodeTypeRepository.findById(id).orElse(null);
     }
 
@@ -53,7 +53,7 @@ public class NodeTypeServiceJpa implements NodeTypeService{
     }
 
     @Override
-    public List<NodeType> findAll() {
+    public List<SmartNodeType> findAll() {
         return IterableUtils.toList(this.nodeTypeRepository.findAll());
     }
 
@@ -68,7 +68,7 @@ public class NodeTypeServiceJpa implements NodeTypeService{
     }
 
     @Override
-    public void delete(NodeType entity) {
+    public void delete(SmartNodeType entity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -78,7 +78,7 @@ public class NodeTypeServiceJpa implements NodeTypeService{
     }
 
     @Override
-    public NodeType findByType(String type) {
+    public SmartNodeType findByType(String type) {
         return this.nodeTypeRepository.findByType(type);
     }
 
