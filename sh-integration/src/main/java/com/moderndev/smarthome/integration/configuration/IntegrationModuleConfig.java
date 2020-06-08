@@ -12,8 +12,8 @@ import org.springframework.context.annotation.PropertySource;
  *
  * @author damian
  */
-@Configuration
-@PropertySource( value = { "classpath:integration.properties" })
+//@Configuration
+//@PropertySource( value = { "classpath:integration.properties" })
 public class IntegrationModuleConfig {
     
 }

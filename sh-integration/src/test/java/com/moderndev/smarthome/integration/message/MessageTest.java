@@ -18,7 +18,7 @@ import org.mockito.Mockito;
  *
  * @author damian
  */
-@Disabled
+//@Disabled
 public class MessageTest {
     
     MessageImpl messageImpl = null;

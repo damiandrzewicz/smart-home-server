@@ -5,17 +5,17 @@
  */
 package com.moderndev.smarthome.integration.bootstrap;
 
-import com.moderndev.smarthome.data.domain.node.Node;
-import com.moderndev.smarthome.data.domain.node.NodeIdentity;
-import com.moderndev.smarthome.data.domain.node.NodeSystemInfo;
-import com.moderndev.smarthome.data.domain.node.NodeType;
-import com.moderndev.smarthome.database.services.NodeService;
-import com.moderndev.smarthome.database.services.NodeTypeService;
-import com.moderndev.smarthome.integration.services.node.NodeManager;
+import com.moderndev.smarthome.data.domain.smartnode.SmartNode;
+import com.moderndev.smarthome.data.domain.smartnode.SmartNodeIdentity;
+import com.moderndev.smarthome.data.domain.smartnode.SmartNodeSystemInfo;
+import com.moderndev.smarthome.data.domain.smartnode.SmartNodeType;
+import com.moderndev.smarthome.integration.services.managers.SmartNodeManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import com.moderndev.smarthome.data.services.SmartNodeService;
+import com.moderndev.smarthome.data.services.SmartNodeTypeService;
 
 /**
  *
@@ -26,12 +26,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class DataLoader implements CommandLineRunner{
 
-    private final NodeService nodeService;
-    private final NodeTypeService nodeTypeService;
+    private final SmartNodeService nodeService;
+    private final SmartNodeTypeService nodeTypeService;
     
-    private final NodeManager nodeManager;
+    private final SmartNodeManager nodeManager;
 
-    public DataLoader(NodeService nodeService, NodeTypeService nodeTypeService, NodeManager nodeManager) {
+    public DataLoader(SmartNodeService nodeService, SmartNodeTypeService nodeTypeService, SmartNodeManager nodeManager) {
         this.nodeService = nodeService;
         this.nodeTypeService = nodeTypeService;
         this.nodeManager = nodeManager;
@@ -41,15 +41,15 @@ public class DataLoader implements CommandLineRunner{
     public void run(String... args) throws Exception {
         
         //create new node types
-        this.nodeTypeService.save(new NodeType("type1"));
-        this.nodeTypeService.save(new NodeType("type2"));
-        this.nodeTypeService.save(new NodeType("type3"));
-        this.nodeTypeService.save(new NodeType("type4"));
-        this.nodeTypeService.save(new NodeType("type5"));
-        this.nodeTypeService.save(new NodeType("type6"));
+        this.nodeTypeService.save(new SmartNodeType("type1"));
+        this.nodeTypeService.save(new SmartNodeType("type2"));
+        this.nodeTypeService.save(new SmartNodeType("type3"));
+        this.nodeTypeService.save(new SmartNodeType("type4"));
+        this.nodeTypeService.save(new SmartNodeType("type5"));
+        this.nodeTypeService.save(new SmartNodeType("type6"));
         
         //node system info
-        NodeSystemInfo nodeSystemInfo = new NodeSystemInfo();
+        SmartNodeSystemInfo nodeSystemInfo = new SmartNodeSystemInfo();
         nodeSystemInfo.setFreeHeapSize(123);
         nodeSystemInfo.setMinFreeHeapSize(12);
         nodeSystemInfo.setMyHomeVersion("0.0.1");
@@ -58,20 +58,20 @@ public class DataLoader implements CommandLineRunner{
         
         //node type
         var nodeType = this.nodeTypeService.findByType("type1");
-        if(nodeType.isEmpty() || nodeType.get() == null){
+        if(nodeType == null){
             log.error("missing node type in DB: 'type1'");
             return;
         }
         
         //node identity
-        var nodeIdentity = new NodeIdentity("MyOwnnodeName", "Kitchen");
+        var nodeIdentity = new SmartNodeIdentity("MyOwnnodeName", "Kitchen");
         
         
-        var node = new Node();
-        node.setNodeId("id123");
-        node.setNodeIdentity(nodeIdentity);
-        node.setNodeSystemInfo(nodeSystemInfo);
-        node.setNodeType(nodeType.get());
+        var node = new SmartNode();
+        node.setSmartNodeId("id123");
+        node.setSmartNodeIdentity(nodeIdentity);
+        node.setSmartNodeSystemInfo(nodeSystemInfo);
+        node.setSmartNodeType(nodeType);
         nodeService.save(node);
         
         //Load data into node manager
