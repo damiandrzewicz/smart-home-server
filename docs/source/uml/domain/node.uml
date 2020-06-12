@@ -1,0 +1,94 @@
+.. uml::
+    :scale: 100%
+    :align: center
+
+    @startuml
+
+    left to right direction
+
+    package com.moderndev.smarthome.data.domain.node{
+        class Node{
+            -clientId : String [@NotNull, @Unique]
+            -minInactiveInterval : Integer [@NotNull, @default=60s]
+            -latestActive : DateTime
+            -customProperties : NodeCustomProperties [@notNull]
+            -locationProperties : NodeLocationProperties
+            -type : NodeType [@NotNull]
+            -memoryStates : NodeMemoryData [1..*]
+            -osInfo : NodeOsInfo
+            
+            +Node(clientId : String)
+            +lombokSetters()
+            +lombokGetters()
+            +equals(...)
+            +hash()
+        }
+        
+        class NodeCustomProperties{
+            -name : String
+            -description : String
+            -categories : NodeCategory
+            
+            +NodeCustomProperties(name : String)
+            +lombokSetters()
+            +lombokGetters()
+        }
+        
+        class NodeLocationProperties{
+            -location : HomeLocation
+            
+            +NodeLocationProperties(location : HomeLocation)
+            +lombokSetters()
+            +lombokGetters()
+            +equals(...)
+            +hash()
+        }
+        
+        class NodeOsInfo{
+            -sdkVersion : String
+            -frameworkVersion : String
+            
+            +lombokSetters()
+            +lombokGetters()
+            +equals(...)
+            +hash()
+        }
+        
+        class NodeMemoryData{
+            -freeHeapSize : Integer
+            -minFreeHeapSize : Integer
+            -fetchDateTime : DateTime
+            
+            +lombokSetters()
+            +lombokGetters()
+            +equals(...)
+            +hash()
+        }
+        
+        class NodeCategory{
+            -category : String
+            
+            +lombokSetters()
+            +lombokGetters()
+            +equals(...)
+            +hash()
+        }
+        
+        class NodeType{
+            -type : String
+            
+            +lombokSetters()
+            +lombokGetters()
+            +equals(...)
+            +hash()
+        }
+    }
+
+    Node "1" *--> "0..1" NodeCustomProperties
+    Node "1" *--> "0..1" NodeLocationProperties
+    Node "1" o--> "1" NodeType
+    Node "1" *--> "1.." NodeMemoryData
+    Node "1" *--> "1" NodeOsInfo
+
+    NodeCategory "0.." <--o "1" NodeCustomProperties
+    @enduml
