@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.data.services;
+package com.moderndev.smarthome.data.services.node;
 
-import com.moderndev.smarthome.data.domain.smartnode.SmartNodeType;
+import com.moderndev.smarthome.data.domain.node.NodeType;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,25 +13,25 @@ import java.util.Optional;
  *
  * @author damian
  */
-public interface SmartNodeTypeService {
+public interface NodeTypeService {
     
-    SmartNodeType save(SmartNodeType entity);
+    NodeType save(NodeType entity);
 
-    List<SmartNodeType> saveAll(List<SmartNodeType> entities);
+    List<NodeType> saveAll(List<NodeType> entities);
 
-    SmartNodeType findById(Long id);
+    NodeType findById(Long id);
     
-    SmartNodeType findByType(String type);
+    NodeType findByType(String type);
 
     boolean existsById(Long id);
 
-    List<SmartNodeType> findAll();
+    List<NodeType> findAll();
 
     long count();
 
     void deleteById(Long id);
 
-    void delete(SmartNodeType entity);
+    void delete(NodeType entity);
 
     void deleteAll();
     

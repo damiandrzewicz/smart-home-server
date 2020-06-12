@@ -3,34 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.data.domain.smartnode;
+package com.moderndev.smarthome.data.domain.node;
 
 import com.moderndev.smarthome.data.domain.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author damian
  */
-@Setter
+@Slf4j
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class SmartNodeSystemInfo extends BaseEntity{
+public class NodeLocationProperties extends BaseEntity{
     
-    @NotNull
-    private String myHomeVersion;
-    
-    @NotNull
-    private String sdkVersion;
-    
-    private int freeHeapSize;
-    
-    private int minFreeHeapSize;
+    private String tempLocation;
 }

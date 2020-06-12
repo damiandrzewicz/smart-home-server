@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.data.repository;
+package com.moderndev.smarthome.data.repository.node;
 
-import com.moderndev.smarthome.data.domain.smartnode.SmartNodeType;
-import java.util.List;
+import com.moderndev.smarthome.data.domain.node.Node;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
@@ -17,10 +16,11 @@ import org.springframework.stereotype.Repository;
  * @author damian
  */
 @Repository
-public interface SmartNodeTypeRepository extends CrudRepository<SmartNodeType, Long>{
+public interface NodeRepository extends CrudRepository<Node, Long>{
     
-    SmartNodeType findByType(String type);
+    Optional<Node> findById(Long id);
     
-    void deleteByType(String type);
-   
+    Node findByClientId(String clientId);
+    
+    Node save(Node node);
 }
