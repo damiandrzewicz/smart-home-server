@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.domain.message;
+package com.moderndev.smarthome.integration.topic;
 
 /**
  *
  * @author damian
  */
-@FunctionalInterface
-public interface IntegrationRequest {
-    
-    void parse(String message) throws IntegrationMessageParseException;
+public class TopicParseException extends Exception{
+
+    public TopicParseException(String message) {
+        super(message);
+    }
 }

@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.services.managers.smartnode;
+package com.moderndev.smarthome.integration.topic;
+
+import com.moderndev.smarthome.integration.domain.topic.TopicModel;
 
 /**
  *
  * @author damian
  */
-public class SmartNodeManagerException extends Exception{
+public interface TopicBuilder{
     
-    public SmartNodeManagerException(String message){
-        super(message);
-    }
+    String build(TopicModel tm);
 }
