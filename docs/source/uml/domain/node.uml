@@ -14,7 +14,7 @@
             -customProperties : NodeCustomProperties [@notNull]
             -locationProperties : NodeLocationProperties
             -type : NodeType [@NotNull]
-            -memoryStates : NodeMemoryData [1..*]
+            -memoryDairy : NodeMemoryDairy
             -osInfo : NodeOsInfo
             
             +Node(clientId : String)
@@ -27,7 +27,7 @@
         class NodeCustomProperties{
             -name : String
             -description : String
-            -categories : NodeCategory
+            -categories : List<NodeCategory>
             
             +NodeCustomProperties(name : String)
             +lombokSetters()
@@ -46,7 +46,7 @@
         
         class NodeOsInfo{
             -sdkVersion : String
-            -frameworkVersion : String
+            -smartHomeVersion : String
             
             +lombokSetters()
             +lombokGetters()
@@ -54,10 +54,10 @@
             +hash()
         }
         
-        class NodeMemoryData{
+        class NodeMemoryDairy{
             -freeHeapSize : Integer
             -minFreeHeapSize : Integer
-            -fetchDateTime : DateTime
+            -entryTime : DateTime
             
             +lombokSetters()
             +lombokGetters()
@@ -87,7 +87,7 @@
     Node "1" *--> "0..1" NodeCustomProperties
     Node "1" *--> "0..1" NodeLocationProperties
     Node "1" o--> "1" NodeType
-    Node "1" *--> "1.." NodeMemoryData
+    Node "1" *--> "1.." NodeMemoryDairy
     Node "1" *--> "1" NodeOsInfo
 
     NodeCategory "0.." <--o "1" NodeCustomProperties
