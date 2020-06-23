@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.topic;
+package com.moderndev.smarthome.integration.message.topic;
 
-import com.moderndev.smarthome.integration.domain.topic.TopicDirection;
-import com.moderndev.smarthome.integration.domain.topic.TopicModel;
+import com.moderndev.smarthome.integration.message.MessageDirection;
+import com.moderndev.smarthome.integration.domain.message.topic.TopicModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +24,7 @@ public class TopicBuilderEspTest {
     
     @BeforeEach
     public void setUp() {
-        tb = new TopicBuilderEsp();
+        tb = new TopicBuilderMqtt();
     }
 
     @Test
@@ -32,11 +32,11 @@ public class TopicBuilderEspTest {
         String built = tb.build(TopicModel.builder()
                 .domain("domain")
                 .receiverId("id1")
-                .direction(TopicDirection.Request)
+                .direction(MessageDirection.Request)
                 .senderId("id2")
                 .build());
         
-        assertEquals("domain/id1/" + TopicDirection.Request.getString() + "/id2", built);
+        assertEquals("domain/id1/" + MessageDirection.Request.getString() + "/id2", built);
     }
     
     @Test
@@ -44,11 +44,11 @@ public class TopicBuilderEspTest {
         String built = tb.build(TopicModel.builder()
                 .domain("domain")
                 .receiverId("id2")
-                .direction(TopicDirection.Response)
+                .direction(MessageDirection.Response)
                 .senderId("id1")
                 .build());
         
-        assertEquals("domain/id2/" + TopicDirection.Response.getString() + "/id1", built);
+        assertEquals("domain/id2/" + MessageDirection.Response.getString() + "/id1", built);
     }
     
     @Test

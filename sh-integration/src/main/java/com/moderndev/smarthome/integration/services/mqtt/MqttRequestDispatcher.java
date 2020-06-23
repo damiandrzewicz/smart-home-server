@@ -5,10 +5,16 @@
  */
 package com.moderndev.smarthome.integration.services.mqtt;
 
-import com.moderndev.smarthome.integration.domain.message.IntegrationMessage;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
+import com.moderndev.smarthome.integration.domain.message.MessageOperationModel;
+import com.moderndev.smarthome.integration.message.Message;
+import com.moderndev.smarthome.integration.message.MessageFactory;
+import com.moderndev.smarthome.integration.message.MqttMessgeProcessingException;
 
 /**
  *
@@ -18,45 +24,39 @@ import org.springframework.stereotype.Service;
 @Service
 public class MqttRequestDispatcher{
     
-    @Autowired
     private MqttOutboundService mqttOutboundService;
-    
-    public void dispatch(String topic, String data) {
-        
-        log.debug("topic:[{}]", topic);
-        log.debug("data:[{}]", data);
-        
-        //get message by topic
-        IntegrationMessage integrationMessage = null;
-        
-        //parse message
-        //integrationMessage.parse(data);
-        
-        //publish response
-        mqttOutboundService.publish(topic, 0, data);
-        
-        //
-        
-//        if(topic.equals("myhome/srv/base/auth/esp32_f96db0")){
-//            AuthorizationMessage authorizationMessage = new AuthorizationMessage();
-//            
-//            try{
-//                authorizationMessage.parse(data);
-//                mqttOutboundService.publish(
-//                        "myhome/node/base/auth/esp32_f96db0", 
-//                        1, 
-//                        authorizationMessage.getOk());
-//            }catch(JSONException ex){
-//                
-//                log.error("exception: %s", ex.getMessage(), ex);
-//                mqttOutboundService.publish(
-//                        "myhome/node/base/auth/esp32_f96db0", 
-//                        1, 
-//                        authorizationMessage.getError(ex.getMessage()));
-//            }
-//        }
-        
 
+    private MessageFactory messageFactory;
+
+    public MqttRequestDispatcher(MqttOutboundService mqttOutboundService, MessageFactory messageFactory) {
+        this.mqttOutboundService = mqttOutboundService;
+        this.messageFactory = messageFactory;
     }
-    
+
+
+    public void dispatch(MqttMessageModel mqttMessageIn) {
+        
+        log.debug(mqttMessageIn.toString());
+        
+        MqttMessageModel mqttMessageOut = null;
+        
+        try {
+            String payload = mqttMessageIn.getPayload();
+            
+            MessageOperationModel basePayload = new ObjectMapper().readValue(payload, MessageOperationModel.class);
+            String operation = basePayload.getOperation();
+                    
+            Message message = messageFactory.create(operation);
+            mqttMessageOut = message.process(mqttMessageIn);
+           
+        } catch (JsonProcessingException ex) {
+            log.error(ex.getMessage());
+            return;
+        } catch (MqttMessgeProcessingException ex) {
+            log.error(ex.getMessage());
+            return;
+        }
+
+        mqttOutboundService.publish(mqttMessageOut.getTopic(), mqttMessageOut.getQos(), mqttMessageOut.getPayload());
+    }
 }

@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.integration.annotation.ServiceActivator;
-
+import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
 import org.springframework.messaging.MessageHandler;
 
 import org.springframework.stereotype.Service;
@@ -32,9 +32,12 @@ public class MqttInboundService {
         
         MessageHandler handler = (msg) ->{
             log.debug("here123!");
-            String topic = msg.getHeaders().get("mqtt_receivedTopic").toString();
-            String data = msg.getPayload().toString();
-            mqttRequestDispatcher.dispatch(topic, data);
+            
+            MqttMessageModel mm = new MqttMessageModel();
+            mm.setTopic(msg.getHeaders().get("mqtt_receivedTopic").toString());
+            mm.setPayload(msg.getPayload().toString());
+            mm.setQos(Integer.parseInt(msg.getHeaders().get("mqtt_receivedQos").toString()));
+            mqttRequestDispatcher.dispatch(mm);
         };
 
         return handler;

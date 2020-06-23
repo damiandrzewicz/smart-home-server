@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.topic;
+package com.moderndev.smarthome.integration.message.topic;
 
-import com.moderndev.smarthome.integration.domain.topic.TopicDirection;
-import com.moderndev.smarthome.integration.domain.topic.TopicModel;
+import com.moderndev.smarthome.integration.message.MessageDirection;
+import com.moderndev.smarthome.integration.domain.message.topic.TopicModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 import lombok.NonNull;
 
 
-public class TopicParserEsp implements TopicParser {
+public class TopicParserMqtt implements TopicParser {
     
     private static final int RequiredItemSize = 4;
 
@@ -27,7 +27,6 @@ public class TopicParserEsp implements TopicParser {
         if(tokenizer.countTokens() == RequiredItemSize){
             tm.setDomain(tokenizer.nextToken());
             tm.setReceiverId(tokenizer.nextToken());
-            tm.setDirection(TopicDirection.parse(tokenizer.nextToken()));
             tm.setSenderId(tokenizer.nextToken());
         } else {
             String error = String.format("wrong items quantity: is=[%d], should=[%d]", 

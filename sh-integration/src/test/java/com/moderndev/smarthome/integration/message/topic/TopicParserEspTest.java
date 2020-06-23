@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.topic;
+package com.moderndev.smarthome.integration.message.topic;
 
-import com.moderndev.smarthome.integration.domain.topic.TopicDirection;
-import com.moderndev.smarthome.integration.domain.topic.TopicModel;
+import com.moderndev.smarthome.integration.message.MessageDirection;
+import com.moderndev.smarthome.integration.domain.message.topic.TopicModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,12 +24,12 @@ public class TopicParserEspTest {
     
     @BeforeEach
     public void setUp() {
-        tp = new TopicParserEsp();
+        tp = new TopicParserMqtt();
     }
 
     @Test
     public void testParseRequest() throws TopicParseException {
-        TopicDirection dir = TopicDirection.Request;
+        MessageDirection dir = MessageDirection.Request;
         String request = "domain/id1/" + dir.getString() + "/id2";
         TopicModel model = tp.parse(request);
         assertEquals("domain", model.getDomain());
@@ -40,7 +40,7 @@ public class TopicParserEspTest {
     
     @Test
     public void testParseResponse() throws TopicParseException {
-        TopicDirection dir = TopicDirection.Response;
+        MessageDirection dir = MessageDirection.Response;
         String response = "domain/id1/" + dir.getString() + "/id2";
         TopicModel model = tp.parse(response);
         assertEquals("domain", model.getDomain());

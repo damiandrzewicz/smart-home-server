@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.topic;
+package com.moderndev.smarthome.integration.message.topic;
 
-import com.moderndev.smarthome.integration.domain.topic.TopicModel;
+import com.moderndev.smarthome.integration.domain.message.topic.TopicModel;
 import lombok.NonNull;
 
 
-public class TopicBuilderEsp implements TopicBuilder {
+public class TopicBuilderMqtt implements TopicBuilder {
 
     /**
      * Pattern: "{domain}/{receiver_id}/{direction}/{sender_id}
@@ -17,7 +17,7 @@ public class TopicBuilderEsp implements TopicBuilder {
      * @return 
      */
     @Override
-    public String build(@NonNull TopicModel tm) {
+    public String build(@NonNull TopicModel tm) throws TopicBuilderException {
         
         StringBuilder sb = new StringBuilder();
 
@@ -27,10 +27,6 @@ public class TopicBuilderEsp implements TopicBuilder {
         //append receiver_id
         sb.append(tm.getDelim());
         sb.append(tm.getReceiverId());
-
-        //append direction
-        sb.append(tm.getDelim());
-        sb.append(tm.getDirection().getString());
         
         sb.append(tm.getDelim());
         sb.append(tm.getSenderId());

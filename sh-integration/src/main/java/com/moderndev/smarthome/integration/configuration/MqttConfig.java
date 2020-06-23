@@ -72,8 +72,7 @@ public class MqttConfig {
         adapter.setQos(1);
         //adapter.setOutputChannel(mqttInputChannel());
         adapter.setOutputChannelName("mqttInputChannel");
-        adapter.addTopic("myhome/srv/base/auth/+");
-        adapter.addTopic("/topic2");
+        adapter.addTopic("myhome/srv/+");
         return adapter;
     }
     

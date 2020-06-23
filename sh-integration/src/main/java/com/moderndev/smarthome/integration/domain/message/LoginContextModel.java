@@ -3,15 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.topic;
+package com.moderndev.smarthome.integration.domain.message;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author damian
  */
-public class TopicParseException extends Exception{
-
-    public TopicParseException(String message) {
-        super(message);
-    }
+@Getter
+@Setter
+public class LoginContextModel{
+    
+    public String login;
+    
+    public String password;
 }

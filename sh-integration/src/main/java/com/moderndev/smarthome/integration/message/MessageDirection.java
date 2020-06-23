@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.domain.topic;
+package com.moderndev.smarthome.integration.message;
 
 import java.util.NoSuchElementException;
 
@@ -11,13 +11,13 @@ import java.util.NoSuchElementException;
  *
  * @author damian
  */
-public enum TopicDirection {
+public enum MessageDirection {
     Request("req"),
     Response("res");
     
     private String value;
 
-    private TopicDirection(String value) {
+    private MessageDirection(String value) {
         this.value = value;
     }
     
@@ -31,10 +31,10 @@ public enum TopicDirection {
     }
     
     
-    static public TopicDirection parse(String string){
-        for(TopicDirection topicDirection : TopicDirection.values()){
-            if(topicDirection.getString().equals(string)){
-                return topicDirection;
+    static public MessageDirection parse(String string){
+        for(MessageDirection messageDirection : MessageDirection.values()){
+            if(messageDirection.getString().equals(string)){
+                return messageDirection;
             }
         }
         

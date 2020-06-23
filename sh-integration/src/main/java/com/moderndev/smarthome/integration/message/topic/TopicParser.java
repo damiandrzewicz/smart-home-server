@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.topic;
+package com.moderndev.smarthome.integration.message.topic;
 
-import com.moderndev.smarthome.integration.domain.topic.TopicModel;
+import com.moderndev.smarthome.integration.domain.message.topic.TopicModel;
 import lombok.NonNull;
 
 /**

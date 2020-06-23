@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.domain.topic;
+package com.moderndev.smarthome.integration.domain.message.topic;
 
+import com.moderndev.smarthome.integration.message.MessageDirection;
+import com.moderndev.smarthome.integration.domain.message.topic.TopicModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,14 +52,14 @@ public class TopicModelTest {
 
     @Test
     public void testGetDirectionRequest() {
-        tm.setDirection(TopicDirection.Request);
-        assertEquals(TopicDirection.Request.getString(), tm.getDirection().getString());
+        tm.setDirection(MessageDirection.Request);
+        assertEquals(MessageDirection.Request.getString(), tm.getDirection().getString());
     }
     
     @Test
     public void testGetDirectionResponse() {
-        tm.setDirection(TopicDirection.Response);
-        assertEquals(TopicDirection.Response.getString(), tm.getDirection().getString());
+        tm.setDirection(MessageDirection.Response);
+        assertEquals(MessageDirection.Response.getString(), tm.getDirection().getString());
     }
 
     @Test

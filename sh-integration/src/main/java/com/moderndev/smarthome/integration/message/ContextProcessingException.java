@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.topic;
-
-import com.moderndev.smarthome.integration.domain.topic.TopicModel;
+package com.moderndev.smarthome.integration.message;
 
 /**
  *
  * @author damian
  */
-public interface TopicBuilder{
+class ContextProcessingException extends Exception {
+
+    public ContextProcessingException(String message) {
+        super(message);
+    }
     
-    String build(TopicModel tm);
 }

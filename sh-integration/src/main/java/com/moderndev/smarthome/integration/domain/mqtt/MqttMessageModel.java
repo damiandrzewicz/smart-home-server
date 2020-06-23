@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.domain.topic;
+package com.moderndev.smarthome.integration.domain.mqtt;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,26 +15,18 @@ import lombok.Setter;
  *
  * @author damian
  */
-@Getter
 @Setter
+@Getter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public class TopicModel {
+public class MqttMessageModel {
     
     @NonNull
-    private String domain;
+    private String topic;
     
     @NonNull
-    private String receiverId;
-    
-    @NonNull
-    private String senderId;
-    
-    @NonNull
+    private String payload;
+
     @Builder.Default
-    private String delim = "/";
-    
-    @NonNull
-    private TopicDirection direction;
+    private int qos = 0;
 }
