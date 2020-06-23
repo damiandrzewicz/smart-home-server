@@ -6,6 +6,7 @@
 package com.moderndev.smarthome.data.services.node;
 
 import com.moderndev.smarthome.data.domain.node.Node;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.Optional;
@@ -22,7 +23,7 @@ public interface NodeService {
 
     Node findById(Long id);
     
-    Node findByNodeId(String clientId);
+    Node findByClientId(String clientId);
 
     boolean existsById(Long id);
 
@@ -37,4 +38,6 @@ public interface NodeService {
     void deleteAll(List<Node> entities);
 
     void deleteAll();
+    
+    void updateLatestActive(String clientId, LocalDateTime localDateTime);
 }

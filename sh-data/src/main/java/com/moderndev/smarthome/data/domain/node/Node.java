@@ -7,6 +7,7 @@ package com.moderndev.smarthome.data.domain.node;
 
 import com.moderndev.smarthome.data.domain.base.BaseEntity;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -41,8 +42,8 @@ public class Node extends BaseEntity{
     @Column(unique = true)
     private String clientId;
     
-    @Column(columnDefinition = "int default 60")
-    private Integer minInactiveInterval;
+    @Column
+    private Integer minInactiveInterval = 60;
      
     @NotNull
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
@@ -56,6 +57,7 @@ public class Node extends BaseEntity{
     
     private LocalDateTime latestActive;
     
+    @NotNull
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "custom_properties_id")
     private NodeCustomProperties customProperties;
@@ -68,7 +70,11 @@ public class Node extends BaseEntity{
     @JoinColumn(name = "node_id")
     @Setter(AccessLevel.NONE)
     private List<NodeMemoryEntry> memoryDairy;
-    
+
+    public Node(String clientId) {
+        this.clientId = clientId;
+    }
+
     public void add(NodeMemoryEntry memoryEntry){
         if(memoryDairy == null){
             this.memoryDairy = new ArrayList<>();

@@ -18,6 +18,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -35,11 +36,7 @@ public class NodeCustomProperties extends BaseEntity{
     
     private String description;
     
-    //TODO block insert
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(
-        name = "node_custom_property_node_category",
-        joinColumns = @JoinColumn(name = "custom_property_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<NodeCategory> categories;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "category_id")
+    private NodeCategory category;
 }
