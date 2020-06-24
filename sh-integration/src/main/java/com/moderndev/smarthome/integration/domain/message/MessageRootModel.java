@@ -18,8 +18,6 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class MessageRootModel extends MessageOperationModel{
     
     private MessageResultModel result = new MessageResultModel();

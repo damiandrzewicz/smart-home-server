@@ -52,7 +52,7 @@ public class TopicModelTest {
 
     @Test
     public void testGetDirectionRequest() {
-        tm.setDirection(MessageDirection.Request);
+        tm.set(MessageDirection.Request);
         assertEquals(MessageDirection.Request.getString(), tm.getDirection().getString());
     }
     

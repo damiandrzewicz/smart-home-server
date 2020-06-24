@@ -5,7 +5,7 @@
  */
 package com.moderndev.smarthome.integration.domain.mqtt;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -17,8 +17,8 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class MqttMessageModel {
     
     @NonNull
@@ -27,6 +27,5 @@ public class MqttMessageModel {
     @NonNull
     private String payload;
 
-    @Builder.Default
     private int qos = 0;
 }

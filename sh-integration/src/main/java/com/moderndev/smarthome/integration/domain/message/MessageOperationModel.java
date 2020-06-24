@@ -8,6 +8,7 @@ package com.moderndev.smarthome.integration.domain.message;
 import com.moderndev.smarthome.integration.message.MessageDirection;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.NonFinal;
 
 /**
  *
@@ -15,6 +16,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@NonFinal
 public class MessageOperationModel {
 
     private String operation;

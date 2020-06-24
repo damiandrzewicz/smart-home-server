@@ -9,8 +9,7 @@ package com.moderndev.smarthome.integration.domain.message;
  *
  * @author damian
  */
-//@JsonDeserialize(using = CommonRequestMessageDeserializer.class)
-public class MessageResultModel extends MessageRootModel{
+public class MessageResultModel{
     
     public static enum State{
         Ok, Error
