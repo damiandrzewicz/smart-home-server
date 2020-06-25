@@ -9,9 +9,9 @@ package com.moderndev.smarthome.integration.message;
  *
  * @author damian
  */
-public class MqttMessgeProcessingException extends Exception {
+public class MessgeProcessingException extends Exception {
 
-    public MqttMessgeProcessingException(String message) {
+    public MessgeProcessingException(String message) {
         super(message);
     }
     

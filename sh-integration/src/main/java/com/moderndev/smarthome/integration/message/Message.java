@@ -11,5 +11,5 @@ import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
  */
 public interface Message {
     
-    MqttMessageModel process(MqttMessageModel mqttMessageModelIn) throws MqttMessgeProcessingException;
+    MqttMessageModel process(MqttMessageModel mqttMessageModelIn) throws MessgeProcessingException;
 }

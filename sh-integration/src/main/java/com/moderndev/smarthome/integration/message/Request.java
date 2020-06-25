@@ -34,7 +34,27 @@ public abstract class Request implements Message{
     }
  
     @Override
-    public MqttMessageModel process(MqttMessageModel mqttMessageModelIn) throws MqttMessgeProcessingException{
+    public MqttMessageModel process(MqttMessageModel mqttMessageModelIn) throws MessgeProcessingException{
+        
+        String error;
+        
+        if(mqttMessageModelIn == null){
+            error = "'mqttMessageModelIn' nullpointer";
+            log.error(error);
+            throw new MessgeProcessingException(error);
+        }
+        
+        if(mqttMessageModelIn.getTopic() == null){
+            error = "'mqttMessageModelIn.topic' nullpointer";
+            log.error(error);
+            throw new MessgeProcessingException(error);
+        }
+        
+        if(mqttMessageModelIn.getPayload()== null){
+            error = "'mqttMessageModelIn.payload' nullpointer";
+            log.error(error);
+            throw new MessgeProcessingException(error);
+        }
         
         String topicIn = mqttMessageModelIn.getTopic();
         String payloadIn = mqttMessageModelIn.getPayload();
@@ -54,16 +74,14 @@ public abstract class Request implements Message{
             topicModelOut.setSenderId(topicModelIn.getReceiverId());
             
             String topicOut = new TopicEsp().build(topicModelOut);
-            
             mqttMessageModelOut.setTopic(topicOut);
         
             rootModelIn = objectMapper.readValue(payloadIn, MessageRootModel.class);
-            
             rootModelOut.setOperation(rootModelIn.getOppositeOperation());
             
         } catch (TopicProcessingException | JsonProcessingException ex) {
             log.error(ex.getMessage());
-            throw new MqttMessgeProcessingException(ex.getMessage());
+            throw new MessgeProcessingException(ex.getMessage());
         } 
             
         try {
@@ -71,12 +89,12 @@ public abstract class Request implements Message{
             if(contextOut != null){
                 rootModelOut.setContext(contextOut);
             }
+            
+            rootModelOut.getResult().setOk();
         } catch (ContextProcessingException ex) {
-            rootModelOut.getResult().setError("context processing exception");
+            rootModelOut.getResult().setError("ContextProcessingException");
             log.error(ex.getMessage());
         }
-
-        rootModelOut.getResult().setOk();
 
         try {
             String payloadOut = objectMapper.writeValueAsString(rootModelOut);
@@ -84,7 +102,7 @@ public abstract class Request implements Message{
 
         } catch (JsonProcessingException ex) {
             log.error(ex.getMessage());
-            throw new MqttMessgeProcessingException(ex.getMessage());
+            throw new MessgeProcessingException(ex.getMessage());
         }
         
         return mqttMessageModelOut;

@@ -14,7 +14,7 @@ import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
 import com.moderndev.smarthome.integration.domain.message.MessageOperationModel;
 import com.moderndev.smarthome.integration.message.Message;
 import com.moderndev.smarthome.integration.message.MessageFactory;
-import com.moderndev.smarthome.integration.message.MqttMessgeProcessingException;
+import com.moderndev.smarthome.integration.message.MessgeProcessingException;
 
 /**
  *
@@ -52,7 +52,7 @@ public class MqttRequestDispatcher{
         } catch (JsonProcessingException ex) {
             log.error(ex.getMessage());
             return;
-        } catch (MqttMessgeProcessingException ex) {
+        } catch (MessgeProcessingException ex) {
             log.error(ex.getMessage());
             return;
         }

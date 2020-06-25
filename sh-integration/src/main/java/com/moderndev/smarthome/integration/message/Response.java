@@ -14,7 +14,7 @@ import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
 public abstract class Response implements Message{
     
     @Override
-    public MqttMessageModel process(MqttMessageModel mqttMessageModelIn) throws MqttMessgeProcessingException {
+    public MqttMessageModel process(MqttMessageModel mqttMessageModelIn) throws MessgeProcessingException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
