@@ -1,0 +1,31 @@
+.. uml::
+    :scale: 100%
+    :align: center
+
+    @startuml
+
+    interface Message{
+        +{abstract} process(mqttMessageModelIn : MqttMessageModel): MqttMessageModel
+    }
+
+    class MqttMessageModel{
+        -topic String
+        -payload: String
+        -qos: integer
+    }
+
+    abstract class Request{
+        -objectMapper: ObjectMapper
+        #{abstract} processContext(context: JsonNode): JsonNode
+    }
+
+    abstract class Response{
+        -objectMapper: ObjectMapper
+        #{abstract} processContext(context: JsonNode): JsonNode
+    }
+
+    MqttMessageModel --> Message
+    Message <.. Request
+    Message <.. Response
+
+    @enduml
