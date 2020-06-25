@@ -37,11 +37,5 @@ public class TopicModel {
     @Builder.Default
     private String delim = "/";
 
-    public TopicModel(String domain, String receiverId, String senderId) {
-        this.domain = domain;
-        this.receiverId = receiverId;
-        this.senderId = senderId;
-    }
-    
     
 }

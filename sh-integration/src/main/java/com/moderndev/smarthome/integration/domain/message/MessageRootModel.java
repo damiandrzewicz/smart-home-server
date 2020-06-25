@@ -5,7 +5,9 @@
  */
 package com.moderndev.smarthome.integration.domain.message;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.moderndev.smarthome.integration.message.MessageDirection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +20,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MessageRootModel extends MessageOperationModel{
     
     private MessageResultModel result = new MessageResultModel();

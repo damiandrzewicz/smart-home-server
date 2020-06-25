@@ -6,13 +6,14 @@
 package com.moderndev.smarthome.integration.message.topic;
 
 import com.moderndev.smarthome.integration.domain.message.topic.TopicModel;
-import lombok.NonNull;
 
 /**
  *
  * @author damian
  */
-public interface TopicParser{
-
-    TopicModel parse(String topic) throws TopicParseException;
+public interface Topic{
+    
+    String build(TopicModel tm) throws TopicProcessingException;
+    
+    TopicModel parse(String topic) throws TopicProcessingException;
 }

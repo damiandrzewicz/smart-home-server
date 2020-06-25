@@ -5,6 +5,7 @@
  */
 package com.moderndev.smarthome.integration.domain.message;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.moderndev.smarthome.integration.message.MessageDirection;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,19 +22,19 @@ public class MessageOperationModel {
 
     private String operation;
     
+    @JsonIgnore
     public MessageDirection getDirection(){
         return this.getOperation().contains("Request") ? MessageDirection.Request : MessageDirection.Response;
     }
     
+    @JsonIgnore
     public String getOppositeOperation(){
-        String tempOperation = new String(this.operation);
         
-        if(tempOperation.contains("Request")){
-            tempOperation.replace("Request", "Response");
+        if(operation.contains("Request")){
+            return operation.replace("Request", "Response");
         } else {
-            tempOperation.replace("Response", "Request");
+            return operation.replace("Response", "Request");
         }
-        
-        return tempOperation;
+
     }
 }

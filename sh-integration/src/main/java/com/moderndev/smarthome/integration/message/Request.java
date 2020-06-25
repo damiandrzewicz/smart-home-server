@@ -8,17 +8,11 @@ package com.moderndev.smarthome.integration.message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.moderndev.smarthome.integration.domain.message.MessageResultModel;
 import com.moderndev.smarthome.integration.domain.message.MessageRootModel;
 import com.moderndev.smarthome.integration.domain.message.topic.TopicModel;
 import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
-import com.moderndev.smarthome.integration.message.topic.TopicBuilderException;
-import com.moderndev.smarthome.integration.message.topic.TopicBuilderMqtt;
-import com.moderndev.smarthome.integration.message.topic.TopicParseException;
-import com.moderndev.smarthome.integration.message.topic.TopicParser;
-import com.moderndev.smarthome.integration.message.topic.TopicParserMqtt;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.moderndev.smarthome.integration.message.topic.TopicEsp;
+import com.moderndev.smarthome.integration.message.topic.TopicProcessingException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -52,14 +46,14 @@ public abstract class Request implements Message{
         mqttMessageModelOut.setQos(getQos());
       
         try {
-            TopicModel topicModelIn = new TopicParserMqtt().parse(topicIn);
+            TopicModel topicModelIn = new TopicEsp().parse(topicIn);
             
-            TopicModel topicModelOut = new TopicModel(
-                    topicModelIn.getDomain(), 
-                    topicModelIn.getSenderId(), 
-                    topicModelIn.getReceiverId());
+            TopicModel topicModelOut = new TopicModel();
+            topicModelOut.setDomain(topicModelIn.getDomain());
+            topicModelOut.setReceiverId(topicModelIn.getSenderId()); 
+            topicModelOut.setSenderId(topicModelIn.getReceiverId());
             
-            String topicOut = new TopicBuilderMqtt().build(topicModelOut);
+            String topicOut = new TopicEsp().build(topicModelOut);
             
             mqttMessageModelOut.setTopic(topicOut);
         
@@ -67,7 +61,7 @@ public abstract class Request implements Message{
             
             rootModelOut.setOperation(rootModelIn.getOppositeOperation());
             
-        } catch (TopicParseException | TopicBuilderException | JsonProcessingException ex) {
+        } catch (TopicProcessingException | JsonProcessingException ex) {
             log.error(ex.getMessage());
             throw new MqttMessgeProcessingException(ex.getMessage());
         } 
@@ -82,6 +76,7 @@ public abstract class Request implements Message{
             log.error(ex.getMessage());
         }
 
+        rootModelOut.getResult().setOk();
 
         try {
             String payloadOut = objectMapper.writeValueAsString(rootModelOut);

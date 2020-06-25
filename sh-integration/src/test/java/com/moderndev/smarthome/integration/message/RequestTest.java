@@ -5,7 +5,11 @@
  */
 package com.moderndev.smarthome.integration.message;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,8 +18,10 @@ import org.mockito.Mockito;
 import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
 import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 /**
  *
  * @author damian
@@ -23,7 +29,6 @@ import org.mockito.MockitoAnnotations;
 
 public class RequestTest {
     
-    @Mock
     Request request;
     
     public RequestTest() {
@@ -31,7 +36,11 @@ public class RequestTest {
     
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        request = Mockito.mock(Request.class, Mockito.withSettings().useConstructor(objectMapper));
+        //MockitoAnnotations.initMocks(this);
     }
 
     @Test

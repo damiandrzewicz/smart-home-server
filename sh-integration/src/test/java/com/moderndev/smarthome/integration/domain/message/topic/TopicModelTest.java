@@ -50,17 +50,7 @@ public class TopicModelTest {
         assertEquals("/", tm.getDelim());
     }
 
-    @Test
-    public void testGetDirectionRequest() {
-        tm.set(MessageDirection.Request);
-        assertEquals(MessageDirection.Request.getString(), tm.getDirection().getString());
-    }
     
-    @Test
-    public void testGetDirectionResponse() {
-        tm.setDirection(MessageDirection.Response);
-        assertEquals(MessageDirection.Response.getString(), tm.getDirection().getString());
-    }
 
     @Test
     public void testSetNullDomain() {
@@ -90,11 +80,5 @@ public class TopicModelTest {
         });
     }
 
-    @Test
-    public void testSetNullDirection() {
-        assertThrows(NullPointerException.class, () -> {
-            tm.setDirection(null);
-        });
-    }
     
 }

@@ -9,9 +9,9 @@ package com.moderndev.smarthome.integration.message.topic;
  *
  * @author damian
  */
-public class TopicBuilderException extends Exception {
+public class TopicProcessingException extends Exception {
 
-    public TopicBuilderException(String message) {
+    public TopicProcessingException(String message) {
         super(message);
     }
     
