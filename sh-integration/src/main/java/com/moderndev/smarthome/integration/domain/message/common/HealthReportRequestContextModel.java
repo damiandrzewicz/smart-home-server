@@ -15,9 +15,9 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class HealthReportContextModel {
+public class HealthReportRequestContextModel {
     
     private State state;
     
-    private String message;
+    private String latestError;
 }

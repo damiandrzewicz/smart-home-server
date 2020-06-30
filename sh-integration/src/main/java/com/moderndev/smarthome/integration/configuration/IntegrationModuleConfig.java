@@ -5,6 +5,10 @@
  */
 package com.moderndev.smarthome.integration.configuration;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
@@ -26,4 +30,10 @@ public class IntegrationModuleConfig {
     @PropertySource("classpath:application-dev.properties")
     @Profile("dev")
     static class DevelopmentConfig{}
+    
+    @Bean
+    public Validator getValidator(){
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        return factory.getValidator();
+    }
 }

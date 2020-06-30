@@ -6,6 +6,8 @@
 package com.moderndev.smarthome.integration.domain.message;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.moderndev.smarthome.integration.message.MessageDirection;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +20,7 @@ import lombok.experimental.NonFinal;
 @Getter
 @Setter
 @NonFinal
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MessageNameModel {
 
     private String messageName;

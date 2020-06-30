@@ -6,6 +6,7 @@
 package com.moderndev.smarthome.integration.message;
 
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -103,7 +104,7 @@ public class RequestTest {
     }
     
     @Test
-    void testProcessMessageWrongFormattedPayload() throws ContextProcessingException{
+    void testProcessMessageWrongFormattedPayload() throws ContextProcessingException, JsonProcessingException{
         Mockito.when(request.processContext(any())).thenReturn(null);
         
         MqttMessageModel requestModel = new MqttMessageModel();
@@ -117,7 +118,7 @@ public class RequestTest {
     }
     
     @Test
-    void testProcessMessageResponseWithWrongContext() throws ContextProcessingException, MessgeProcessingException{
+    void testProcessMessageResponseWithWrongContext() throws ContextProcessingException, MessgeProcessingException, JsonProcessingException{
         
         ObjectNode context = JsonNodeFactory.instance.objectNode();
         context.put("field1", "test1");
@@ -136,7 +137,7 @@ public class RequestTest {
     }
     
     @Test
-    void testProcessMessageResultErrorWithMsg() throws ContextProcessingException, MessgeProcessingException{
+    void testProcessMessageResultErrorWithMsg() throws ContextProcessingException, MessgeProcessingException, JsonProcessingException{
         
         Mockito.when(request.processContext(any())).thenThrow(ContextProcessingException.class);
         

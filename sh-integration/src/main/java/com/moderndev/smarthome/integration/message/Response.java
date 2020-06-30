@@ -7,6 +7,8 @@ package com.moderndev.smarthome.integration.message;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
+import javax.validation.Validator;
+import org.springframework.validation.SmartValidator;
 
 /**
  *
@@ -14,9 +16,11 @@ import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
  */
 public abstract class Response extends Message{
 
-    public Response(ObjectMapper objectMapper, MessageFactory messageFactory) {
-        super(objectMapper, messageFactory);
+    public Response(ObjectMapper objectMapper, MessageFactory messageFactory, Validator validator) {
+        super(objectMapper, messageFactory, validator);
     }
+
+
     
     @Override
     public MqttMessageModel process(MqttMessageModel mqttMessageModelIn) throws MessgeProcessingException {

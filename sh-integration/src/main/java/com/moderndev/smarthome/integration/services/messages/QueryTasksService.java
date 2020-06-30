@@ -5,16 +5,16 @@
  */
 package com.moderndev.smarthome.integration.services.messages;
 
-import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  *
  * @author damian
  */
-@Service
-public class LoginService {
-    
-    public boolean login(String login, String password){
-        return false;
+public class QueryTasksService {
+
+    public JsonNode getTaskContext(String senderId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
 }

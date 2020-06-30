@@ -13,9 +13,11 @@ import com.moderndev.smarthome.integration.domain.message.topic.TopicModel;
 import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
 import com.moderndev.smarthome.integration.message.topic.TopicEsp;
 import com.moderndev.smarthome.integration.message.topic.TopicProcessingException;
+import javax.validation.Validator;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.SmartValidator;
 /**
  *
  * @author damian
@@ -24,13 +26,12 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @Slf4j
 public abstract class Request extends Message{
-     
 
-
-    public Request(ObjectMapper objectMapper, MessageFactory messageFactory) {
-        super(objectMapper, messageFactory);
+    public Request(ObjectMapper objectMapper, MessageFactory messageFactory, Validator validator) {
+        super(objectMapper, messageFactory, validator);
     }
-
+     
+    
     @Override
     public MqttMessageModel process(MqttMessageModel mqttMessageModelIn) throws MessgeProcessingException{
         
@@ -62,9 +63,11 @@ public abstract class Request extends Message{
         
         MqttMessageModel mqttMessageModelOut = new MqttMessageModel();
         mqttMessageModelOut.setQos(getResponseQos());
+        
+        TopicModel topicModelIn;
       
         try {
-            TopicModel topicModelIn = new TopicEsp().parse(topicIn);
+            topicModelIn = new TopicEsp().parse(topicIn);
             
             TopicModel topicModelOut = new TopicModel();
             topicModelOut.setDomain(topicModelIn.getDomain());
@@ -91,8 +94,8 @@ public abstract class Request extends Message{
                 }
 
                 rootModelOut.getResult().setOk();
-            } catch (ContextProcessingException | JsonProcessingException ex) {
-                rootModelOut.getResult().setError("ContextProcessingException");
+            } catch (ContextProcessingException ex) {
+                rootModelOut.getResult().setError(ex.getMessage());
                 log.error("an exception occurred!", ex);
             }
         }
@@ -109,8 +112,7 @@ public abstract class Request extends Message{
         return mqttMessageModelOut;
     }
     
-    protected abstract JsonNode processContext(JsonNode context) 
-            throws ContextProcessingException, JsonProcessingException;
+    protected abstract JsonNode processContext(JsonNode context) throws ContextProcessingException;
     
 
 }

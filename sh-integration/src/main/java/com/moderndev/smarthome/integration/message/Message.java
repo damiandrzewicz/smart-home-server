@@ -7,10 +7,12 @@ package com.moderndev.smarthome.integration.message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
+import javax.validation.Validator;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.SmartValidator;
 /**
  *
  * @author damian
@@ -25,15 +27,19 @@ public abstract class Message {
     
     private MessageFactory messageFactory;
     
+    Validator validator;
+    
     private String messageName;
     
     private int responseQos = 0;
-    
 
-    public Message(ObjectMapper objectMapper, MessageFactory messageFactory) {
+    public Message(ObjectMapper objectMapper, MessageFactory messageFactory, Validator validator) {
         this.objectMapper = objectMapper;
         this.messageFactory = messageFactory;
+        this.validator = validator;
     }
+    
+
     
     protected void registerMessgeInFactory(){
         this.messageFactory.addAllowedMessage(getMessageName());

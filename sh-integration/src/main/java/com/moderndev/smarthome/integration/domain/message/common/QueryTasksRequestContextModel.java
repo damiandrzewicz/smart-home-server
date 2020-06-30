@@ -12,11 +12,9 @@ import lombok.Setter;
  *
  * @author damian
  */
-@Getter
 @Setter
-public class LoginContextModel{
+@Getter
+public class QueryTasksRequestContextModel {
     
-    public String login;
-    
-    public String password;
+    private String senderId;
 }

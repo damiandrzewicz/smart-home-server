@@ -8,14 +8,16 @@ package com.moderndev.smarthome.integration.message.common;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.moderndev.smarthome.integration.domain.message.common.HealthReportContextModel;
+import com.moderndev.smarthome.integration.domain.message.common.HealthReportRequestContextModel;
 import com.moderndev.smarthome.integration.message.ContextProcessingException;
 import com.moderndev.smarthome.integration.message.MessageFactory;
 import com.moderndev.smarthome.integration.message.Request;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.validation.Validator;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.SmartValidator;
 
 /**
  *
@@ -59,20 +61,29 @@ Response:
 @Component
 //@Scope("prototype")
 public class HealthReportRequest extends Request{
-
-    public HealthReportRequest(ObjectMapper objectMapper, MessageFactory messageFactory) {
-        super(objectMapper, messageFactory);
+    
+    public HealthReportRequest(ObjectMapper objectMapper, MessageFactory messageFactory, Validator validator) {
+        
+        super(objectMapper, messageFactory, validator);
         setMessageName("healthReportRequest");
         registerMessgeInFactory();
     }
     
     @Override
-    protected JsonNode processContext(JsonNode context) throws ContextProcessingException, JsonProcessingException {
+    protected JsonNode processContext(JsonNode context) throws ContextProcessingException {
 
-        HealthReportContextModel healthReportContextModel
-                = getObjectMapper().treeToValue(context, HealthReportContextModel.class);
+        HealthReportRequestContextModel healthReportContextModel;
+                
+        try {
+            healthReportContextModel = getObjectMapper().treeToValue(context, HealthReportRequestContextModel.class);
+        } catch (JsonProcessingException ex) {
+            throw new ContextProcessingException(ex);
+        }
             
-        //TODO process in service
+        if(healthReportContextModel.getState().isError()) {
+            String latestError = healthReportContextModel.getLatestError();
+            //TODO save somewhere to process it
+        }
         
         return null;
         

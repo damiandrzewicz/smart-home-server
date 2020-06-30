@@ -5,6 +5,7 @@
  */
 package com.moderndev.smarthome.integration.domain.message;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
@@ -26,5 +27,15 @@ public enum State {
     @JsonValue
     public String getString() {
         return string;
+    }
+    
+    @JsonIgnore
+    public boolean isOk(){
+        return this.equals(Ok);
+    }
+    
+    @JsonIgnore
+    public boolean isError(){
+        return this.equals(Error);
     }
 }
