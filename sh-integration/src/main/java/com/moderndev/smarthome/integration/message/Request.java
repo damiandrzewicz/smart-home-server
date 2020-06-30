@@ -8,7 +8,7 @@ package com.moderndev.smarthome.integration.message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.moderndev.smarthome.integration.domain.message.MessageRootModel;
+import com.moderndev.smarthome.integration.domain.message.MessageModel;
 import com.moderndev.smarthome.integration.domain.message.topic.TopicModel;
 import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
 import com.moderndev.smarthome.integration.message.topic.TopicEsp;
@@ -23,16 +23,14 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Setter
 @Slf4j
-public abstract class Request implements Message{
+public abstract class Request extends Message{
      
-    private ObjectMapper objectMapper;
-    
-    private int qos = 0;
 
-    public Request(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+
+    public Request(ObjectMapper objectMapper, MessageFactory messageFactory) {
+        super(objectMapper, messageFactory);
     }
- 
+
     @Override
     public MqttMessageModel process(MqttMessageModel mqttMessageModelIn) throws MessgeProcessingException{
         
@@ -59,11 +57,11 @@ public abstract class Request implements Message{
         String topicIn = mqttMessageModelIn.getTopic();
         String payloadIn = mqttMessageModelIn.getPayload();
         
-        MessageRootModel rootModelIn = null;
-        MessageRootModel rootModelOut = new MessageRootModel();
+        MessageModel rootModelIn = null;
+        MessageModel rootModelOut = new MessageModel();
         
         MqttMessageModel mqttMessageModelOut = new MqttMessageModel();
-        mqttMessageModelOut.setQos(getQos());
+        mqttMessageModelOut.setQos(getResponseQos());
       
         try {
             TopicModel topicModelIn = new TopicEsp().parse(topicIn);
@@ -76,28 +74,31 @@ public abstract class Request implements Message{
             String topicOut = new TopicEsp().build(topicModelOut);
             mqttMessageModelOut.setTopic(topicOut);
         
-            rootModelIn = objectMapper.readValue(payloadIn, MessageRootModel.class);
-            rootModelOut.setOperation(rootModelIn.getOppositeOperation());
+            rootModelIn = getObjectMapper().readValue(payloadIn, MessageModel.class);
+            rootModelOut.setMessageName(rootModelIn.getOppositeMessageName());
             
         } catch (TopicProcessingException | JsonProcessingException ex) {
             log.error(ex.getMessage());
             throw new MessgeProcessingException(ex.getMessage());
         } 
-            
-        try {
-            JsonNode contextOut = processContext(rootModelIn.getContext());
-            if(contextOut != null){
-                rootModelOut.setContext(contextOut);
-            }
-            
-            rootModelOut.getResult().setOk();
-        } catch (ContextProcessingException ex) {
-            rootModelOut.getResult().setError("ContextProcessingException");
-            log.error(ex.getMessage());
-        }
+        
+        JsonNode contextIn = rootModelIn.getContext();
+        if(contextIn != null){
+            try {
+                JsonNode contextOut = processContext(rootModelIn.getContext());
+                if(contextOut != null){
+                    rootModelOut.setContext(contextOut);
+                }
 
+                rootModelOut.getResult().setOk();
+            } catch (ContextProcessingException | JsonProcessingException ex) {
+                rootModelOut.getResult().setError("ContextProcessingException");
+                log.error("an exception occurred!", ex);
+            }
+        }
+            
         try {
-            String payloadOut = objectMapper.writeValueAsString(rootModelOut);
+            String payloadOut = getObjectMapper().writeValueAsString(rootModelOut);
             mqttMessageModelOut.setPayload(payloadOut);
 
         } catch (JsonProcessingException ex) {
@@ -108,6 +109,8 @@ public abstract class Request implements Message{
         return mqttMessageModelOut;
     }
     
-    protected abstract JsonNode processContext(JsonNode context) throws ContextProcessingException;
+    protected abstract JsonNode processContext(JsonNode context) 
+            throws ContextProcessingException, JsonProcessingException;
     
+
 }

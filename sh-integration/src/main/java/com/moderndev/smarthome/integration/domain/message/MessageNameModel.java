@@ -18,22 +18,22 @@ import lombok.experimental.NonFinal;
 @Getter
 @Setter
 @NonFinal
-public class MessageOperationModel {
+public class MessageNameModel {
 
-    private String operation;
+    private String messageName;
     
     @JsonIgnore
     public MessageDirection getDirection(){
-        return this.getOperation().contains("Request") ? MessageDirection.Request : MessageDirection.Response;
+        return this.getMessageName().contains("Request") ? MessageDirection.Request : MessageDirection.Response;
     }
     
     @JsonIgnore
-    public String getOppositeOperation(){
+    public String getOppositeMessageName(){
         
-        if(operation.contains("Request")){
-            return operation.replace("Request", "Response");
+        if(getMessageName().contains("Request")){
+            return getMessageName().replace("Request", "Response");
         } else {
-            return operation.replace("Response", "Request");
+            return getMessageName().replace("Response", "Request");
         }
 
     }

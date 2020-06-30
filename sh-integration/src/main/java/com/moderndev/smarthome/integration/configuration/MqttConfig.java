@@ -5,6 +5,7 @@
  */
 package com.moderndev.smarthome.integration.configuration;
 
+import com.moderndev.smarthome.integration.message.MessageSubscribtions;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,6 +45,13 @@ public class MqttConfig {
     @Value("${mqtt.password:}")
     private String password;
     
+    private MessageSubscribtions messageSubscribtions;
+
+    public MqttConfig(MessageSubscribtions messageSubscribtions) {
+        this.messageSubscribtions = messageSubscribtions;
+    }
+
+    
     public MqttPahoClientFactory mqttClientFactory(){
         DefaultMqttPahoClientFactory factory = new DefaultMqttPahoClientFactory();
         MqttConnectOptions options = new MqttConnectOptions();
@@ -72,7 +80,11 @@ public class MqttConfig {
         adapter.setQos(1);
         //adapter.setOutputChannel(mqttInputChannel());
         adapter.setOutputChannelName("mqttInputChannel");
-        adapter.addTopic("myhome/srv/+");
+        
+        messageSubscribtions.getSubscribtions()
+                .stream()
+                .forEach(s -> adapter.addTopic(s));
+        
         return adapter;
     }
     

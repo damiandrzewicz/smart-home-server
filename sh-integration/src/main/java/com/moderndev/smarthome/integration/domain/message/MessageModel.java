@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MessageRootModel extends MessageOperationModel{
+public class MessageModel extends MessageNameModel{
     
     private MessageResultModel result = new MessageResultModel();
     

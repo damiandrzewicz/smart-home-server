@@ -9,14 +9,9 @@ package com.moderndev.smarthome.integration.message;
  *
  * @author damian
  */
-public class ContextProcessingException extends Exception {
+class MessageFactoryException extends Exception {
 
-    public ContextProcessingException(String message) {
+    public MessageFactoryException(String message) {
         super(message);
     }
-
-    public ContextProcessingException(Throwable cause) {
-        super(cause);
-    }
-
 }

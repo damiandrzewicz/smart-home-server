@@ -50,8 +50,6 @@ public class TopicModelTest {
         assertEquals("/", tm.getDelim());
     }
 
-    
-
     @Test
     public void testSetNullDomain() {
         assertThrows(NullPointerException.class, () -> {

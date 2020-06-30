@@ -19,22 +19,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MessageResultModel{
     
-    //@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-    public static enum State{
-        Ok("ok"), Error("error");
-        
-        private String string;
-
-        private State(String string) {
-            this.string = string;
-        }
-
-        @JsonValue
-        public String getString() {
-            return string;
-        }
-    }
-
     private State state;
         
     private String message;

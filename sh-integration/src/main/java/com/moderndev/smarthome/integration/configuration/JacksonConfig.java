@@ -8,6 +8,7 @@ package com.moderndev.smarthome.integration.configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 /**
@@ -25,6 +26,7 @@ public class JacksonConfig {
     }
     
     @Bean
+    @Scope("prototype")
     public ObjectMapper objectMapper(){
         return new ObjectMapper();
     }

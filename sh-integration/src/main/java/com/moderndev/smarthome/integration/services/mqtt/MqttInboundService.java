@@ -5,6 +5,7 @@
  */
 package com.moderndev.smarthome.integration.services.mqtt;
 
+import com.moderndev.smarthome.integration.message.MessageDispatcher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +24,7 @@ import org.springframework.stereotype.Service;
 public class MqttInboundService {
     
     @Autowired
-    private MqttRequestDispatcher mqttRequestDispatcher;
+    private MessageDispatcher mqttRequestDispatcher;
     
     @Bean
     @ServiceActivator(inputChannel = "mqttInputChannel")

@@ -5,13 +5,18 @@
  */
 package com.moderndev.smarthome.integration.message;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
 
 /**
  *
  * @author damian
  */
-public abstract class Response implements Message{
+public abstract class Response extends Message{
+
+    public Response(ObjectMapper objectMapper, MessageFactory messageFactory) {
+        super(objectMapper, messageFactory);
+    }
     
     @Override
     public MqttMessageModel process(MqttMessageModel mqttMessageModelIn) throws MessgeProcessingException {
