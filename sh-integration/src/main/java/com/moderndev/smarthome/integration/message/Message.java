@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.validation.SmartValidator;
 /**
  *
@@ -22,21 +23,18 @@ import org.springframework.validation.SmartValidator;
 @Setter
 @NonFinal
 @Slf4j
-public abstract class Message {
+public abstract class Message{
     
     private ObjectMapper objectMapper;
         
-    Validator validator;
-    
-    ValidatorHelper validatorHelper;
+    private ValidatorHelper validatorHelper;
     
     private String messageName;
     
     private int responseQos = 0;
 
-    public Message(ObjectMapper objectMapper, Validator validator, ValidatorHelper validatorHelper) {
+    public Message(ObjectMapper objectMapper, ValidatorHelper validatorHelper) {
         this.objectMapper = objectMapper;
-        this.validator = validator;
         this.validatorHelper = validatorHelper;
     }
     

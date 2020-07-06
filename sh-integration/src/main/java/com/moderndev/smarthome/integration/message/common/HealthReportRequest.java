@@ -63,13 +63,10 @@ Response:
 //@Scope("prototype")
 public class HealthReportRequest extends Request{
 
-    public HealthReportRequest(ObjectMapper objectMapper, Validator validator, ValidatorHelper validatorHelper) {
-        super(objectMapper, validator, validatorHelper);
+    public HealthReportRequest(ObjectMapper objectMapper, ValidatorHelper validatorHelper) {
+        super(objectMapper, validatorHelper);
     }
 
-
-    
-    
     @Override
     protected JsonNode processContext(String receiverId, JsonNode context) throws ContextProcessingException {
 

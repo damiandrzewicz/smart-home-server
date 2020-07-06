@@ -30,15 +30,15 @@ import org.springframework.validation.SmartValidator;
 @Slf4j
 public abstract class Request extends Message{
 
-    public Request(ObjectMapper objectMapper, Validator validator, ValidatorHelper validatorHelper) {
-        super(objectMapper, validator, validatorHelper);
+    public Request(ObjectMapper objectMapper, ValidatorHelper validatorHelper) {
+        super(objectMapper, validatorHelper);
     }
+
 
     @Override
     public MqttMessageModel process(MqttMessageModel mqttMessageModelIn) throws MessgeProcessingException{
         
-        Set<ConstraintViolation<MqttMessageModel>> violations = getValidator().validate(mqttMessageModelIn);
-        String violationsString = getValidatorHelper().checkViolations(violations);
+        String violationsString = getValidatorHelper().checkViolations(mqttMessageModelIn);
         if(violationsString != null){
             throw new MessgeProcessingException(violationsString);
         }

@@ -21,8 +21,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class DeviceInfoRequest extends Request{
 
-    public DeviceInfoRequest(ObjectMapper objectMapper, Validator validator, ValidatorHelper validatorHelper) {
-        super(objectMapper, validator, validatorHelper);
+    public DeviceInfoRequest(ObjectMapper objectMapper, ValidatorHelper validatorHelper) {
+        super(objectMapper, validatorHelper);
     }
 
 

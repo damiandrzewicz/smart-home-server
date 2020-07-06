@@ -65,9 +65,11 @@ public class LoginRequest extends Request{
     
     private LoginService loginService;
 
-    public LoginRequest(LoginService loginService, ObjectMapper objectMapper, Validator validator, ValidatorHelper validatorHelper) {
-        super(objectMapper, validator, validatorHelper);
+    public LoginRequest(LoginService loginService, ObjectMapper objectMapper, ValidatorHelper validatorHelper) {
+        super(objectMapper, validatorHelper);
         this.loginService = loginService;
+        
+        setMessageName("loginRequest");
     }
 
 
@@ -81,7 +83,7 @@ public class LoginRequest extends Request{
             throw new ContextProcessingException(ex);
         }
                 
-        String violationsString = getValidatorHelper().checkViolations(getValidator().validate(loginContextModel));
+        String violationsString = getValidatorHelper().checkViolations(loginContextModel);
         if(violationsString != null){
             throw new ContextProcessingException(violationsString);
         }

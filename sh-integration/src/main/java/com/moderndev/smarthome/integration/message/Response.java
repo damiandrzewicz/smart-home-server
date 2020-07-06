@@ -17,10 +17,9 @@ import org.springframework.validation.SmartValidator;
  */
 public abstract class Response extends Message{
 
-    public Response(ObjectMapper objectMapper, Validator validator, ValidatorHelper validatorHelper) {
-        super(objectMapper, validator, validatorHelper);
+    public Response(ObjectMapper objectMapper, ValidatorHelper validatorHelper) {
+        super(objectMapper, validatorHelper);
     }
-
 
 
     @Override

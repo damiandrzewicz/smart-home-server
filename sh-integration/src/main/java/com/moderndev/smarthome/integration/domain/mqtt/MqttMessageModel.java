@@ -24,15 +24,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MqttMessageModel {
     
-    @NotNull(message = "property 'topic' cannot be null")
-    @NotBlank(message = "property 'topic' cannot be blanc")
+    @NotNull
+    @NotBlank
     private String topic;
     
-    @NotNull(message = "property 'payload' cannot be null")
-    @NotBlank(message = "property 'payload' cannot be blanc")
+    @NotNull
+    @NotBlank
     private String payload;
 
-    @Min(value = 0, message = "property 'qos' cannot be lover than 0")
-    @Max(value = 2, message = "property 'qos' cannot be higher than 2")
+    @Min(0)
+    @Max(2)
     private int qos = 0;
 }

@@ -18,12 +18,19 @@ import lombok.experimental.NonFinal;
  * @author damian
  */
 @Getter
-@Setter
 @NonFinal
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MessageNameModel {
 
     private String messageName;
+    
+    public void setMessageName(String messageName){
+        if(!messageName.contains("Request") && !messageName.contains("Response")){
+            throw new IllegalArgumentException("'messageName' should contain request/response text");
+        }
+        
+        this.messageName = messageName;
+    }
     
     @JsonIgnore
     public MessageDirection getDirection(){
@@ -38,6 +45,5 @@ public class MessageNameModel {
         } else {
             return getMessageName().replace("Response", "Request");
         }
-
     }
 }

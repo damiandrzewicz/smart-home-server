@@ -44,8 +44,8 @@ public class QueryTaskRequest extends Request{
     
     private QueryTasksService queryTasksService;
 
-    public QueryTaskRequest(QueryTasksService queryTasksService, ObjectMapper objectMapper, Validator validator, ValidatorHelper validatorHelper) {
-        super(objectMapper, validator, validatorHelper);
+    public QueryTaskRequest(QueryTasksService queryTasksService, ObjectMapper objectMapper, ValidatorHelper validatorHelper) {
+        super(objectMapper, validatorHelper);
         this.queryTasksService = queryTasksService;
     }
 
