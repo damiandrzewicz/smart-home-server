@@ -38,5 +38,21 @@ public class ValidatorHelper {
         
         return errors;
     }
+    
+    public static String formatNullPropertyMsg(String propertyName){
+        return String.format("property '%s' cannot be null", propertyName);
+    }
+    
+    public static String formatBlankPropertyMsg(String propertyName){
+        return String.format("property '%s' cannot be blank", propertyName);
+    }
+    
+    public static String formatLowerThanPropertyMsg(String propertyName, int value){
+        return String.format("property '%s' cannot be lower than %d", propertyName, value);
+    }
+    
+    public static String formatHigherThanPropertyMsg(String propertyName, int value){
+        return String.format("property '%s' cannot be higher than %d", propertyName, value);
+    }
 }
 

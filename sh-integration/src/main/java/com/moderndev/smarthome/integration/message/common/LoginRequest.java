@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 Request:
 {
     "messageName":"loginRequest",
-    "context":
+    "content":
     {
         "login":"mylogin123",
         "password":"mypassword123"
@@ -72,9 +72,8 @@ public class LoginRequest extends Request{
 
 
     @Override
-    protected JsonNode processContext(JsonNode context) throws ContextProcessingException {
+    protected JsonNode processContext(String receiverId, JsonNode context) throws ContextProcessingException {
         
-                
         LoginRequestContextModel loginContextModel;
         try {
             loginContextModel = getObjectMapper().treeToValue(context, LoginRequestContextModel.class);
@@ -93,5 +92,4 @@ public class LoginRequest extends Request{
         
         return null;
     }
-    
 }

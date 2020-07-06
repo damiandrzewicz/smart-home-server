@@ -58,7 +58,7 @@ public class RequestTest {
     @Test
     public void testProcessMessageResponseNoContext() throws Exception {
         
-        Mockito.when(request.processContext(any())).thenReturn(null);
+        Mockito.when(request.processContext(any(), any())).thenReturn(null);
         
         MqttMessageModel requestModel = new MqttMessageModel();
         requestModel.setTopic("myhome/id1/id2");
@@ -105,7 +105,7 @@ public class RequestTest {
     
     @Test
     void testProcessMessageWrongFormattedPayload() throws ContextProcessingException, JsonProcessingException{
-        Mockito.when(request.processContext(any())).thenReturn(null);
+        Mockito.when(request.processContext(any(), any())).thenReturn(null);
         
         MqttMessageModel requestModel = new MqttMessageModel();
         requestModel.setTopic("myhome/id1/id2");
@@ -124,7 +124,7 @@ public class RequestTest {
         context.put("field1", "test1");
         context.put("key", 1.1);
         
-        Mockito.when(request.processContext(any())).thenReturn((JsonNode)context);
+        Mockito.when(request.processContext(any(), any())).thenReturn((JsonNode)context);
         
         MqttMessageModel requestModel = new MqttMessageModel();
         requestModel.setTopic("myhome/id1/id2");
@@ -139,7 +139,7 @@ public class RequestTest {
     @Test
     void testProcessMessageResultErrorWithMsg() throws ContextProcessingException, MessgeProcessingException, JsonProcessingException{
         
-        Mockito.when(request.processContext(any())).thenThrow(ContextProcessingException.class);
+        Mockito.when(request.processContext(any(), any())).thenThrow(ContextProcessingException.class);
         
         MqttMessageModel requestModel = new MqttMessageModel();
         requestModel.setTopic("myhome/id1/id2");

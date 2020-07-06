@@ -5,18 +5,12 @@
  */
 package com.moderndev.smarthome.integration.message.common;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.moderndev.smarthome.integration.domain.message.common.SenderContextModel;
-import com.moderndev.smarthome.integration.domain.message.topic.TopicModel;
 import com.moderndev.smarthome.integration.message.ContextProcessingException;
 import com.moderndev.smarthome.integration.utils.ValidatorHelper;
-import com.moderndev.smarthome.integration.message.MessageFactory;
 import com.moderndev.smarthome.integration.message.Request;
 import com.moderndev.smarthome.integration.services.messages.QueryTasksService;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.validation.Validator;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +18,27 @@ import org.springframework.stereotype.Component;
  *
  * @author damian
  */
+
+/*
+Request:
+{
+    "messageName":"queryTaskRequest"
+}
+
+If password Ok
+Response:
+{
+    "messageName":"loginResponse",
+    "result":
+    {
+        "state":"ok"
+    }
+    content:
+    {
+        //device specified content
+    }
+*/
+
 @Component
 public class QueryTaskRequest extends Request{
     
@@ -36,22 +51,10 @@ public class QueryTaskRequest extends Request{
 
 
     @Override
-    protected JsonNode processContext(JsonNode context) throws ContextProcessingException {
-        
-        SenderContextModel senderContextModel;
-        try {
-            senderContextModel = getObjectMapper().treeToValue(context, SenderContextModel.class);
-        } catch (JsonProcessingException ex) {
-            throw new ContextProcessingException(ex);
-        }
-        
-        String violationsString = getValidatorHelper().checkViolations(getValidator().validate(senderContextModel));
-        if(violationsString != null){
-            throw new ContextProcessingException(violationsString);
-        }
+    protected JsonNode processContext(String receiverId, JsonNode context) throws ContextProcessingException {
         
         //TODO find messages for
-        JsonNode contextOut = queryTasksService.getTaskContext(senderContextModel.getSenderId());
+        JsonNode contextOut = queryTasksService.getTaskContext(receiverId);
         
         return contextOut;
     }

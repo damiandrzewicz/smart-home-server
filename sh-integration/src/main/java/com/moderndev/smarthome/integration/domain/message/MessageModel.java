@@ -27,5 +27,5 @@ public class MessageModel extends MessageNameModel{
     
     private MessageResultModel result = new MessageResultModel();
     
-    private JsonNode context;
+    private JsonNode content;
 }

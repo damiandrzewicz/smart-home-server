@@ -73,19 +73,18 @@ public abstract class Request extends Message{
             throw new MessgeProcessingException(ex.getMessage());
         } 
         
-        JsonNode contextIn = rootModelIn.getContext();
-        if(contextIn != null){
-            try {
-                JsonNode contextOut = processContext(rootModelIn.getContext());
-                if(contextOut != null){
-                    rootModelOut.setContext(contextOut);
-                }
-
-                rootModelOut.getResult().setOk();
-            } catch (ContextProcessingException ex) {
-                rootModelOut.getResult().setError(ex.getMessage());
-                log.error("an exception occurred!", ex);
+        try {
+            JsonNode contextOut = processContext(
+                    topicModelIn.getSenderId(),
+                    rootModelIn.getContent());
+            if(contextOut != null){
+                rootModelOut.setContent(contextOut);
             }
+
+            rootModelOut.getResult().setOk();
+        } catch (ContextProcessingException ex) {
+            rootModelOut.getResult().setError(ex.getMessage());
+            log.error("an exception occurred!", ex);
         }
             
         try {
@@ -100,7 +99,7 @@ public abstract class Request extends Message{
         return mqttMessageModelOut;
     }
     
-    protected abstract JsonNode processContext(JsonNode context) throws ContextProcessingException;
+    protected abstract JsonNode processContext(String receiverId, JsonNode context) throws ContextProcessingException;
     
 
 }

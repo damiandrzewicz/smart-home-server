@@ -19,15 +19,15 @@ import org.springframework.stereotype.Component;
  * @author damian
  */
 @Component
-public class SystemInfoRequest extends Request{
+public class DeviceInfoRequest extends Request{
 
-    public SystemInfoRequest(ObjectMapper objectMapper, Validator validator, ValidatorHelper validatorHelper) {
+    public DeviceInfoRequest(ObjectMapper objectMapper, Validator validator, ValidatorHelper validatorHelper) {
         super(objectMapper, validator, validatorHelper);
     }
 
 
     @Override
-    protected JsonNode processContext(JsonNode context) throws ContextProcessingException {
+    protected JsonNode processContext(String receiverId, JsonNode context) throws ContextProcessingException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

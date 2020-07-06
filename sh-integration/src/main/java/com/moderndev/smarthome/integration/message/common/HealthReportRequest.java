@@ -71,7 +71,7 @@ public class HealthReportRequest extends Request{
     
     
     @Override
-    protected JsonNode processContext(JsonNode context) throws ContextProcessingException {
+    protected JsonNode processContext(String receiverId, JsonNode context) throws ContextProcessingException {
 
         HealthReportRequestContextModel healthReportContextModel;
                 
