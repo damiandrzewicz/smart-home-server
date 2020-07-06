@@ -13,6 +13,9 @@ import com.moderndev.smarthome.integration.domain.message.topic.TopicModel;
 import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
 import com.moderndev.smarthome.integration.message.topic.TopicEsp;
 import com.moderndev.smarthome.integration.message.topic.TopicProcessingException;
+import com.moderndev.smarthome.integration.utils.ValidatorHelper;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,32 +30,17 @@ import org.springframework.validation.SmartValidator;
 @Slf4j
 public abstract class Request extends Message{
 
-    public Request(ObjectMapper objectMapper, MessageFactory messageFactory, Validator validator) {
-        super(objectMapper, messageFactory, validator);
+    public Request(ObjectMapper objectMapper, Validator validator, ValidatorHelper validatorHelper) {
+        super(objectMapper, validator, validatorHelper);
     }
-     
-    
+
     @Override
     public MqttMessageModel process(MqttMessageModel mqttMessageModelIn) throws MessgeProcessingException{
         
-        String error;
-        
-        if(mqttMessageModelIn == null){
-            error = "'mqttMessageModelIn' nullpointer";
-            log.error(error);
-            throw new MessgeProcessingException(error);
-        }
-        
-        if(mqttMessageModelIn.getTopic() == null){
-            error = "'mqttMessageModelIn.topic' nullpointer";
-            log.error(error);
-            throw new MessgeProcessingException(error);
-        }
-        
-        if(mqttMessageModelIn.getPayload()== null){
-            error = "'mqttMessageModelIn.payload' nullpointer";
-            log.error(error);
-            throw new MessgeProcessingException(error);
+        Set<ConstraintViolation<MqttMessageModel>> violations = getValidator().validate(mqttMessageModelIn);
+        String violationsString = getValidatorHelper().checkViolations(violations);
+        if(violationsString != null){
+            throw new MessgeProcessingException(violationsString);
         }
         
         String topicIn = mqttMessageModelIn.getTopic();

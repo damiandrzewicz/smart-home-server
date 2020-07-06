@@ -12,6 +12,7 @@ import com.moderndev.smarthome.integration.domain.message.common.HealthReportReq
 import com.moderndev.smarthome.integration.message.ContextProcessingException;
 import com.moderndev.smarthome.integration.message.MessageFactory;
 import com.moderndev.smarthome.integration.message.Request;
+import com.moderndev.smarthome.integration.utils.ValidatorHelper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.Validator;
@@ -61,13 +62,13 @@ Response:
 @Component
 //@Scope("prototype")
 public class HealthReportRequest extends Request{
-    
-    public HealthReportRequest(ObjectMapper objectMapper, MessageFactory messageFactory, Validator validator) {
-        
-        super(objectMapper, messageFactory, validator);
-        setMessageName("healthReportRequest");
-        registerMessgeInFactory();
+
+    public HealthReportRequest(ObjectMapper objectMapper, Validator validator, ValidatorHelper validatorHelper) {
+        super(objectMapper, validator, validatorHelper);
     }
+
+
+    
     
     @Override
     protected JsonNode processContext(JsonNode context) throws ContextProcessingException {

@@ -53,13 +53,7 @@ public class MessageDispatcher{
             Message message = messageFactory.create(messageName);
             mqttMessageOut = message.process(mqttMessageIn);
            
-        } catch (JsonProcessingException ex) {
-            log.error("an exception occurred!", ex);
-            return;
-        } catch (MessgeProcessingException ex) {
-            log.error("an exception occurred!", ex);
-            return;
-        } catch (MessageFactoryException ex) {
+        } catch (JsonProcessingException | MessgeProcessingException | MessageFactoryException ex) {
             log.error("an exception occurred!", ex);
             return;
         }

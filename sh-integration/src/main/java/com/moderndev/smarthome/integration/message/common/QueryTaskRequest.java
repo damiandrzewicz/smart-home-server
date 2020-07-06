@@ -8,9 +8,10 @@ package com.moderndev.smarthome.integration.message.common;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.moderndev.smarthome.integration.domain.message.common.QueryTasksRequestContextModel;
+import com.moderndev.smarthome.integration.domain.message.common.SenderContextModel;
 import com.moderndev.smarthome.integration.domain.message.topic.TopicModel;
 import com.moderndev.smarthome.integration.message.ContextProcessingException;
+import com.moderndev.smarthome.integration.utils.ValidatorHelper;
 import com.moderndev.smarthome.integration.message.MessageFactory;
 import com.moderndev.smarthome.integration.message.Request;
 import com.moderndev.smarthome.integration.services.messages.QueryTasksService;
@@ -28,30 +29,31 @@ public class QueryTaskRequest extends Request{
     
     private QueryTasksService queryTasksService;
 
-    public QueryTaskRequest(ObjectMapper objectMapper, MessageFactory messageFactory, 
-            Validator validator, QueryTasksService queryTasksService) {
-        super(objectMapper, messageFactory, validator);
+    public QueryTaskRequest(QueryTasksService queryTasksService, ObjectMapper objectMapper, Validator validator, ValidatorHelper validatorHelper) {
+        super(objectMapper, validator, validatorHelper);
         this.queryTasksService = queryTasksService;
-        
-        setMessageName("queryTaskRequest");
-        registerMessgeInFactory();
     }
-    
-    
+
 
     @Override
     protected JsonNode processContext(JsonNode context) throws ContextProcessingException {
         
-        QueryTasksRequestContextModel queryTasksRequestContextModel;
+        SenderContextModel senderContextModel;
         try {
-            queryTasksRequestContextModel = getObjectMapper().treeToValue(context, QueryTasksRequestContextModel.class);
+            senderContextModel = getObjectMapper().treeToValue(context, SenderContextModel.class);
         } catch (JsonProcessingException ex) {
             throw new ContextProcessingException(ex);
         }
         
+        String violationsString = getValidatorHelper().checkViolations(getValidator().validate(senderContextModel));
+        if(violationsString != null){
+            throw new ContextProcessingException(violationsString);
+        }
+        
         //TODO find messages for
-        String senderId = queryTasksRequestContextModel.getSenderId();
-        JsonNode contextOut = queryTasksService.getTaskContext(senderId);
+        JsonNode contextOut = queryTasksService.getTaskContext(senderContextModel.getSenderId());
+        
+        return contextOut;
     }
     
 }

@@ -5,6 +5,8 @@
  */
 package com.moderndev.smarthome.integration.domain.message.common;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +16,9 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class QueryTasksRequestContextModel {
+public class SenderContextModel {
     
+    @NotNull
+    @NotBlank(message = "property 'senderId' cannot be empty")
     private String senderId;
 }

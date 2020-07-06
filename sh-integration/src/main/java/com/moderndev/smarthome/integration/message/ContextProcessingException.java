@@ -5,12 +5,15 @@
  */
 package com.moderndev.smarthome.integration.message;
 
+import lombok.Getter;
+
 /**
  *
  * @author damian
  */
+@Getter
 public class ContextProcessingException extends Exception {
-
+    
     public ContextProcessingException(String message) {
         super(message);
     }

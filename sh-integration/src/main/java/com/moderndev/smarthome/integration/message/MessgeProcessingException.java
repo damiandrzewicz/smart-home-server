@@ -5,13 +5,17 @@
  */
 package com.moderndev.smarthome.integration.message;
 
+import lombok.Getter;
+
 /**
  *
  * @author damian
  */
+@Getter
 public class MessgeProcessingException extends Exception {
-
-    public MessgeProcessingException(String message) {
+    
+    
+    public MessgeProcessingException(String message){
         super(message);
     }
     

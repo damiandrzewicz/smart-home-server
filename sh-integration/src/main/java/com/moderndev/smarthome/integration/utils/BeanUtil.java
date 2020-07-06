@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.moderndev.smarthome.integration.services.utils;
+package com.moderndev.smarthome.integration.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

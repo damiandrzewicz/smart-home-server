@@ -7,6 +7,7 @@ package com.moderndev.smarthome.integration.message;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moderndev.smarthome.integration.domain.mqtt.MqttMessageModel;
+import com.moderndev.smarthome.integration.utils.ValidatorHelper;
 import javax.validation.Validator;
 import org.springframework.validation.SmartValidator;
 
@@ -16,12 +17,12 @@ import org.springframework.validation.SmartValidator;
  */
 public abstract class Response extends Message{
 
-    public Response(ObjectMapper objectMapper, MessageFactory messageFactory, Validator validator) {
-        super(objectMapper, messageFactory, validator);
+    public Response(ObjectMapper objectMapper, Validator validator, ValidatorHelper validatorHelper) {
+        super(objectMapper, validator, validatorHelper);
     }
 
 
-    
+
     @Override
     public MqttMessageModel process(MqttMessageModel mqttMessageModelIn) throws MessgeProcessingException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

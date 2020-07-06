@@ -6,11 +6,13 @@
 package com.moderndev.smarthome.integration.services.messages;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author damian
  */
+@Service
 public class QueryTasksService {
 
     public JsonNode getTaskContext(String senderId) {

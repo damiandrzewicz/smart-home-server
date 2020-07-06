@@ -10,21 +10,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moderndev.smarthome.integration.domain.message.common.LoginRequestContextModel;
 import com.moderndev.smarthome.integration.message.ContextProcessingException;
+import com.moderndev.smarthome.integration.utils.ValidatorHelper;
 import com.moderndev.smarthome.integration.message.MessageFactory;
 import com.moderndev.smarthome.integration.message.Request;
-import com.moderndev.smarthome.integration.message.ViolationStringBuilder;
 import com.moderndev.smarthome.integration.services.messages.LoginService;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.SmartValidator;
 
 /**
  *
@@ -73,30 +65,26 @@ public class LoginRequest extends Request{
     
     private LoginService loginService;
 
-    public LoginRequest(LoginService loginService, ObjectMapper objectMapper, 
-            MessageFactory messageFactory, Validator validator) {
-        
-        super(objectMapper, messageFactory, validator);
+    public LoginRequest(LoginService loginService, ObjectMapper objectMapper, Validator validator, ValidatorHelper validatorHelper) {
+        super(objectMapper, validator, validatorHelper);
         this.loginService = loginService;
-        
-        setMessageName("loginRequest");
-        registerMessgeInFactory();
     }
-    
+
+
     @Override
     protected JsonNode processContext(JsonNode context) throws ContextProcessingException {
         
+                
         LoginRequestContextModel loginContextModel;
         try {
             loginContextModel = getObjectMapper().treeToValue(context, LoginRequestContextModel.class);
         } catch (JsonProcessingException ex) {
             throw new ContextProcessingException(ex);
         }
-        
-        Set<ConstraintViolation<LoginRequestContextModel>> violations = getValidator().validate(loginContextModel);
-        if(!violations.isEmpty()){
-            log.error("an exception occurred!", violations.toString());
-            throw new ContextProcessingException(ViolationStringBuilder.buildString(violations));
+                
+        String violationsString = getValidatorHelper().checkViolations(getValidator().validate(loginContextModel));
+        if(violationsString != null){
+            throw new ContextProcessingException(violationsString);
         }
 
         if(!loginService.login(loginContextModel.getLogin(), loginContextModel.getPassword())){
